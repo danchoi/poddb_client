@@ -11,6 +11,9 @@ class PoddbClient
   CACHE_DIR = "%s/.poddb/cache" % ENV['HOME']
   `mkdir -p #{CACHE_DIR}`
 
+  VIMSCRIPT = "lib/interactive.vim"
+  OUTFILE = "#{CACHE_DIR}/main.itemlist"
+
   include PoddbClient::Downloading
 
   def initialize(args)
@@ -25,6 +28,9 @@ class PoddbClient
       opts.separator ""
       opts.on("-A", "--all-recent", "Show all recent podcast items") do 
         @all_recent = true
+      end
+      opts.on("-f", "--from-podcasts FILE", "Show all recent items from podcasts in FILE") do |file|
+        @from_podcasts_file = file
       end
       opts.on("-a", "--add PODCAST_URL", "Add podcast with PODCAST_URL to the poddb database") do |podcast_url|
         @add_podcast = podcast_url
@@ -44,10 +50,14 @@ class PoddbClient
       add_podcast
     elsif @list_podcasts
       list_podcasts
+    elsif @from_podcasts_file
+      from_podcasts
+      interactive
     elsif @all_recent
       all_recent
     else
       search
+      interactive
     end
   end
 
@@ -55,13 +65,25 @@ class PoddbClient
     puts "Adding podcast..."
     res = Net::HTTP.post_form(URI.parse("#{SERVER}/podcasts"),
                               'url' => @add_podcast)
-    # TODO
+    # TODO improve response
     puts res.body
+  end
+
+  def interactive
+    File.open(OUTFILE, 'w') {|f| f.puts @output}
+    system("vim -S #{VIMSCRIPT} #{OUTFILE}")
+    download_marked_items
+    cleanup
+  end
+
+  def from_podcasts
+    podcast_ids = File.readlines(@from_podcasts_file).map {|x| x[/(\d+)\s*$/,1]}.compact.join(',')
+    @output = `curl -s #{SERVER}/items?podcast_ids=#{podcast_ids}`
   end
 
   def list_podcasts
     output = `curl -s #{SERVER}/podcasts`
-    puts output
+
   end
 
   def all_recent
@@ -70,13 +92,7 @@ class PoddbClient
 
   def search
     query = @args.join(' ')
-    output = `curl -s #{SERVER}/search?q=#{CGI::escape(query)}`
-    vimscript = "lib/interactive.vim"
-    outfile = "#{CACHE_DIR}/main.itemlist"
-    File.open(outfile, 'w') {|f| f.puts output}
-    system("vim -S #{vimscript} #{outfile}")
-    download_marked_items
-    cleanup
+    @output = `curl -s #{SERVER}/search?q=#{CGI::escape(query)}`
   end
 
   def cleanup
