@@ -30,19 +30,25 @@ class PoddbClient
     OptionParser.new do |opts|
       opts.banner = "Usage: poddb [options] [query]"
       opts.separator ""
-      opts.on("-f", "--favorites [FILE]", "Show all recent items from podcasts in FILE or in cached favorites list") do |file|
-        default_favorites = "%s/favorites" % PODDB_DIR
-        @podcast_list_file = file || default_favorites
-        if ! File.size?(@podcast_list_file)
-          puts "No podcasts found in #{@podcast_list_file}"
+      opts.on("-f", "--from-favorites", "Show all recent items from favorite podcasts") do
+        if ! File.size?(FAVORITE_PODCASTS_FILE)
+          puts "No podcasts found in #{FAVORITE_PODCASTS_FILE}"
           exit
         end
+        @items_from_favorites = true
       end
       opts.on("-a", "--add PODCAST_URL", "Add podcast with PODCAST_URL to the poddb database") do |podcast_url|
         @add_podcast = podcast_url
       end
       opts.on("-l", "--list", "List all podcasts in the poddb database") do 
         @list_podcasts = true
+      end
+      opts.on("-F", "--favorite-podcasts", "Show favorite podcasts") do
+        if ! File.size?(FAVORITE_PODCASTS_FILE)
+          puts "No podcasts found in #{FAVORITE_PODCASTS_FILE}"
+          exit
+        end
+        @list_favorite_podcasts = true
       end
       opts.on_tail("-h", "--help", "Show this message") do
         puts opts
@@ -54,11 +60,11 @@ class PoddbClient
   def run
     if @add_podcast
       add_podcast
-    elsif @list_podcasts
+    elsif @list_podcasts || @list_favorite_podcasts 
       list_podcasts
       interactive
-    elsif @podcast_list_file
-      from_podcasts
+    elsif @items_from_favorites
+      items_from_favorites
       interactive
     else
       search
@@ -89,17 +95,28 @@ class PoddbClient
     cleanup
   end
 
-  def from_podcasts
-    podcast_ids = File.readlines(@podcast_list_file).map {|x| x[/(\d+)\s*$/,1]}.compact.join(',')
-    @output = `curl -s #{SERVER}/items?podcast_ids=#{podcast_ids}`
+  def favorite_podcast_ids
+    if File.size?(FAVORITE_PODCASTS_FILE)
+      File.readlines(FAVORITE_PODCASTS_FILE).map(&:strip).select {|x| x != ''}
+    else
+      []
+    end
+  end
+
+  def items_from_favorites
+    @output = `curl -s #{SERVER}/items?podcast_ids=#{favorite_podcast_ids.join(',')}`
   end
 
   def list_podcasts
     @outfile = PODCAST_LIST_OUTFILE
-    @output = `curl -s #{SERVER}/podcasts`
+    @output = if @list_podcasts
+                `curl -s #{SERVER}/podcasts`
+              elsif @list_favorite_podcasts 
+                `curl -s #{SERVER}/podcasts?podcast_ids=#{favorite_podcast_ids.join(',')}`
+              end
     if File.size?(FAVORITE_PODCASTS_FILE)
-      favorite_podcast_ids = File.readlines(FAVORITE_PODCASTS_FILE).map(&:strip)
       @output = @output.split("\n").map {|line|
+        # podcast_ids here are strings
         if (podcast_id = line[/\d+$/,0]) && favorite_podcast_ids.include?(podcast_id)
           line.sub(/^ /, "@")
         else
