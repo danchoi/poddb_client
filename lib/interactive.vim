@@ -4,17 +4,6 @@ call system("mkdir -p ".s:poddb_cache_dir)
 
 autocmd VimLeave <buffer> :call <SID>write_download_list()<CR>
 
-" TODO
-function! s:podcast_list_window()
-  let s:podcast_listbufnr = bufnr('')
-  setlocal cursorline
-  setlocal nowrap
-  setlocal textwidth=0
-  setlocal nomodifiable
-  noremap <buffer> <cr> :call <SID>show_podcast_items()<cr>
-
-endfunc
-
 " main_window() is a list of items, shown from search and by show_podcast_items()
 function! s:main_window()
   let s:listbufnr = bufnr('')
@@ -25,7 +14,7 @@ function! s:main_window()
   noremap <buffer> <cr> :call <SID>show_item()<cr>
   noremap <buffer> l :call <SID>show_item()<cr>
   noremap <buffer> d :call <SID>mark_for_download()<cr>
-  noremap <buffer> p :call <SID>show_podcast_items()<cr>
+  noremap <buffer> p :call <SID>show_podcast_items('')<cr>
 
   noremap <buffer> <c-j> :call <SID>show_next_item(0)<CR> 
   noremap <buffer> <c-k> :call <SID>show_next_item(1)<CR> 
@@ -46,7 +35,13 @@ function! s:item_window()
 endfunction
 
 function! s:show_item()
-  let itemId = matchstr(getline(line('.')), '\d\+$')
+  if s:is_podcast_list()
+    let podcastId = matchstr( matchstr(getline(line('.')), '\d\+\s*$'), '\d\+' )
+    call s:show_podcast_items(podcastId)
+    return
+  else
+    let itemId = matchstr(getline(line('.')), '\d\+$')
+  endif
   if (itemId == '')
     return
   endif
@@ -84,8 +79,12 @@ function! s:write_download_list()
   exec '! cat % | grep "^\*" > '.outfile
 endfunc
 
-function! s:show_podcast_items()
-  let podcastId = matchstr( matchstr(getline(line('.')), '\d\+ |\s*\d\+$'), '\d\+' )
+function! s:show_podcast_items(podcastId)
+  if a:podcastId != ''
+    let podcastId = a:podcastId
+  else
+    let podcastId = matchstr( matchstr(getline(line('.')), '\d\+ |\s*\d\+$'), '\d\+' )
+  end
   if (podcastId == '')
     return
   endif
@@ -98,6 +97,11 @@ function! s:show_podcast_items()
   exec "e ".outfile
   call s:main_window()
 endfunc
+
+function! s:is_podcast_list()
+  let top_line = getline(1)
+  return top_line =~ "xml_url"
+endfunct
 
 function! s:favorite_this_podcast()
   let podcastId = matchstr( matchstr(getline(line('.')), '\d\+ |\s*\d\+$'), '\d\+' )
@@ -150,4 +154,6 @@ endfunction
 
 call s:main_window()
 call s:item_window()
+
 normal 3G
+

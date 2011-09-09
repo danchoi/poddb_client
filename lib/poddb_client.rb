@@ -12,13 +12,15 @@ class PoddbClient
   `mkdir -p #{CACHE_DIR}`
 
   VIMSCRIPT = "lib/interactive.vim"
-  OUTFILE = "#{CACHE_DIR}/main.itemlist"
+  ITEM_LIST_OUTFILE = "#{CACHE_DIR}/main.itemlist"
+  PODCAST_LIST_OUTFILE = "#{CACHE_DIR}/main.podcastlist"
 
   include PoddbClient::Downloading
 
   def initialize(args)
     @args = args
     @options = {}
+    @outfile = ITEM_LIST_OUTFILE # changed only for podcast list
     parse_options
   end
 
@@ -75,8 +77,10 @@ class PoddbClient
       puts @output
       exit
     end
-    File.open(OUTFILE, 'w') {|f| f.puts @output}
-    system("vim -S #{VIMSCRIPT} #{OUTFILE}")
+    File.open(@outfile, 'w') {|f| f.puts @output}
+    cmd = "vim -S #{VIMSCRIPT} #{@outfile} #{@poddb_env}"
+    puts cmd
+    system(cmd)
     download_marked_items
     cleanup
   end
@@ -87,6 +91,7 @@ class PoddbClient
   end
 
   def list_podcasts
+    @outfile = PODCAST_LIST_OUTFILE
     @output = `curl -s #{SERVER}/podcasts`
   end
 
