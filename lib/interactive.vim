@@ -15,12 +15,9 @@ function! s:main_window()
   noremap <buffer> l :call <SID>show_item()<cr>
   noremap <buffer> d :call <SID>mark_for_download()<cr>
   noremap <buffer> p :call <SID>show_podcast_items('')<cr>
-
   noremap <buffer> <c-j> :call <SID>show_next_item(0)<CR> 
   noremap <buffer> <c-k> :call <SID>show_next_item(1)<CR> 
-
   noremap <buffer> <leader>f :call <SID>favorite_this_podcast()<CR> 
-
   autocmd BufEnter <buffer> :setlocal nowrap
 endfunction
 
@@ -55,6 +52,9 @@ function! s:show_item()
 endfunc
 
 function! s:mark_for_download() range
+  if s:is_podcast_list()
+    return
+  end
   call s:focus_window(s:listbufnr)
   setlocal modifiable
   let lnum = a:firstline
@@ -80,6 +80,13 @@ function! s:write_download_list()
 endfunc
 
 function! s:show_podcast_items(podcastId)
+  " Let user use p key from podcastlist and itemlist
+  " If p is pressed in podcastlist, podcastId will be blank, and we'll reuse
+  " s:show_item() to extract podcastId and call this method again.
+  if s:is_podcast_list() && a:podcastId == ''
+    call s:show_item()
+    return
+  end
   if a:podcastId != ''
     let podcastId = a:podcastId
   else
