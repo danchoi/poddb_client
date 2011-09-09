@@ -23,25 +23,29 @@ class PoddbClient
     OptionParser.new do |opts|
       opts.banner = "Usage: poddb [options]"
       opts.separator ""
+      opts.on("-A", "--all-recent", "Show all recent podcast items") do 
+        @all_recent = true
+      end
       opts.on("-a", "--add PODCAST_URL", "Add podcast with PODCAST_URL to the poddb database") do |podcast_url|
-        @options[:add_podcast] = podcast_url
+        @add_podcast = podcast_url
       end
       opts.on("-l", "--list", "List add podcasts in the poddb database") do 
-        @options[:list_podcasts] = true
+        @list_podcasts = true
       end
       opts.on_tail("-h", "--help", "Show this message") do
         puts opts
         exit
       end
     end.parse!(@args)
-    #puts @options.inspect
   end
 
   def run
-    if @options[:add_podcast]
+    if @add_podcast
       add_podcast
-    elsif @options[:list_podcasts]
+    elsif @list_podcasts
       list_podcasts
+    elsif @all_recent
+      all_recent
     else
       search
     end
@@ -50,7 +54,7 @@ class PoddbClient
   def add_podcast
     puts "Adding podcast..."
     res = Net::HTTP.post_form(URI.parse("#{SERVER}/podcasts"),
-                              'url' => @options[:add_podcast])
+                              'url' => @add_podcast)
     # TODO
     puts res.body
   end
@@ -58,6 +62,10 @@ class PoddbClient
   def list_podcasts
     output = `curl -s #{SERVER}/podcasts`
     puts output
+  end
+
+  def all_recent
+    puts 'all recent'
   end
 
   def search
