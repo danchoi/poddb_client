@@ -17,7 +17,7 @@ function! s:main_window()
   noremap <buffer> p :call <SID>show_podcast_items('')<cr>
   noremap <buffer> <c-j> :call <SID>show_next_item(0)<CR> 
   noremap <buffer> <c-k> :call <SID>show_next_item(1)<CR> 
-  noremap <buffer> <leader>f :call <SID>favorite_this_podcast()<CR> 
+  noremap <buffer> f :call <SID>favorite_this_podcast()<CR> 
   autocmd BufEnter <buffer> :setlocal nowrap
 endfunction
 
@@ -111,11 +111,26 @@ function! s:is_podcast_list()
 endfunct
 
 function! s:favorite_this_podcast()
-  let podcastId = matchstr( matchstr(getline(line('.')), '\d\+ |\s*\d\+$'), '\d\+' )
+  if s:is_podcast_list()
+    let podcastId = matchstr( matchstr(getline(line('.')), '\d\+\s*$'), '\d\+' )
+  else
+    let podcastId = matchstr( matchstr(getline(line('.')), '\d\+ |\s*\d\+$'), '\d\+' )
+  endif
   if (podcastId == '')
     return
   endif
-  " TODO
+  let line = getline('.')
+  if (match(line, "^*") != -1)
+    let newline = substitute(line, '^*', ' ', '')
+  else
+    let newline = substitute(line, '^ ', '*', '')
+  endif
+  setlocal modifiable
+  call setline(line('.'), newline)
+  setlocal nomodifiable
+  write!
+  normal 0
+  " TODO append podcastId to favorites list
 
 endfunc
 
