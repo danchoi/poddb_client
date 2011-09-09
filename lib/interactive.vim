@@ -6,13 +6,16 @@ autocmd VimLeave <buffer> :call <SID>write_download_list()<CR>
 
 " TODO
 function! s:podcast_list_window()
+  let s:podcast_listbufnr = bufnr('')
   setlocal cursorline
   setlocal nowrap
   setlocal textwidth=0
   setlocal nomodifiable
   noremap <buffer> <cr> :call <SID>show_podcast_items()<cr>
+
 endfunc
 
+" main_window() is a list of items, shown from search and by show_podcast_items()
 function! s:main_window()
   let s:listbufnr = bufnr('')
   setlocal cursorline
