@@ -130,6 +130,9 @@ function! s:focus_window(target_bufnr)
 endfunction
 
 function! s:show_next_item(previous)
+  if s:is_podcast_list()
+    return
+  end
   let origbufnr = bufnr('%') 
   let fullscreen = (bufwinnr(s:listbufnr) == -1) " we're in full screen message mode
   if fullscreen
