@@ -2,6 +2,8 @@ let s:base_url = "http://localhost:3000"
 let s:poddb_cache_dir = $HOME."/.poddb/cache"
 call system("mkdir -p ".s:poddb_cache_dir)
 
+let s:favorite_podcasts_list = $HOME."/.poddb/favorites"
+
 autocmd VimLeave <buffer> :call <SID>write_download_list()<CR>
 
 " main_window() is a list of items, shown from search and by show_podcast_items()
@@ -120,18 +122,19 @@ function! s:favorite_this_podcast()
     return
   endif
   let line = getline('.')
-  if (match(line, "^*") != -1)
-    let newline = substitute(line, '^*', ' ', '')
+  if (match(line, "^@") != -1)
+    let newline = substitute(line, '^@', ' ', '')
+    let tmp = tempname()
+    call system("grep -v '^".podcastId."$' ".s:favorite_podcasts_list." | uniq > ".tmp."  &&  mv ".tmp." ".s:favorite_podcasts_list)
   else
-    let newline = substitute(line, '^ ', '*', '')
+    let newline = substitute(line, '^ ', '@', '')
+    call system("echo ".podcastId." >> ".s:favorite_podcasts_list ." &")
   endif
   setlocal modifiable
   call setline(line('.'), newline)
   setlocal nomodifiable
   write!
   normal 0
-  " TODO append podcastId to favorites list
-
 endfunc
 
 function! s:focus_window(target_bufnr)
