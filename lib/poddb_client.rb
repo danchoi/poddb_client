@@ -1,7 +1,10 @@
 require 'poddb_client/downloading'
 require 'cgi'
+require 'optparse'
 
 class PoddbClient
+
+  # TODO: change to poddb.com
   SERVER = "http://localhost:3000"
 
   CACHE_DIR = "%s/.poddb/cache" % ENV['HOME']
@@ -11,6 +14,20 @@ class PoddbClient
 
   def initialize(args)
     @args = args
+    @options = {}
+    parse_options
+  end
+
+  def parse_options
+    OptionParser.new do |opts|
+      opts.banner = "Usage: poddb [options]"
+      opts.separator ""
+
+      opts.on_tail("-h", "--help", "Show this message") do
+        puts opts
+        exit
+      end
+    end.parse!(@args)
   end
 
   def run
@@ -38,7 +55,6 @@ class PoddbClient
   end
 
   def list_podcasts
-
     # TODO 
     # list podcasts
     # /podcasts
