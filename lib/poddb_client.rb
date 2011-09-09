@@ -23,20 +23,25 @@ class PoddbClient
     OptionParser.new do |opts|
       opts.banner = "Usage: poddb [options]"
       opts.separator ""
-
       opts.on("-a", "--add PODCAST_URL", "Add podcast with PODCAST_URL to the poddb database") do |podcast_url|
         @options[:add_podcast] = podcast_url
+      end
+      opts.on("-l", "--list", "List add podcasts in the poddb database") do 
+        @options[:list_podcasts] = true
       end
       opts.on_tail("-h", "--help", "Show this message") do
         puts opts
         exit
       end
     end.parse!(@args)
+    #puts @options.inspect
   end
 
   def run
     if @options[:add_podcast]
       add_podcast
+    elsif @options[:list_podcasts]
+      list_podcasts
     else
       search
     end
@@ -46,8 +51,13 @@ class PoddbClient
     puts "Adding podcast..."
     res = Net::HTTP.post_form(URI.parse("#{SERVER}/podcasts"),
                               'url' => @options[:add_podcast])
-    
+    # TODO
     puts res.body
+  end
+
+  def list_podcasts
+    output = `curl -s #{SERVER}/podcasts`
+    puts output
   end
 
   def search
@@ -63,13 +73,6 @@ class PoddbClient
 
   def cleanup
     `rm -rf #{CACHE_DIR}/*`
-  end
-
-  def list_podcasts
-    # TODO 
-    # list podcasts
-    # /podcasts
-    # just print to STDOUT
   end
 
 end
