@@ -1,6 +1,7 @@
 require 'poddb_client/downloading'
 require 'cgi'
 require 'optparse'
+require 'net/http'
 
 class PoddbClient
 
@@ -23,6 +24,9 @@ class PoddbClient
       opts.banner = "Usage: poddb [options]"
       opts.separator ""
 
+      opts.on("-a", "--add PODCAST_URL", "Add podcast with PODCAST_URL to the poddb database") do |podcast_url|
+        @options[:add_podcast] = podcast_url
+      end
       opts.on_tail("-h", "--help", "Show this message") do
         puts opts
         exit
@@ -31,12 +35,19 @@ class PoddbClient
   end
 
   def run
-    # TODO here, we would parse any flags to tweak the search or the ordering
-    if ARGV.first == 'download'
-      download(ARGV[1].to_i)
+    if @options[:add_podcast]
+      add_podcast
     else
       search
     end
+  end
+
+  def add_podcast
+    puts "Adding podcast..."
+    res = Net::HTTP.post_form(URI.parse("#{SERVER}/podcasts"),
+                              'url' => @options[:add_podcast])
+    
+    puts res.body
   end
 
   def search
