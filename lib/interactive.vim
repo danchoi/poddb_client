@@ -2,6 +2,8 @@ let s:base_url = "http://localhost:3000"
 let s:poddb_cache_dir = $HOME."/.poddb/cache"
 call system("mkdir -p ".s:poddb_cache_dir)
 
+autocmd VimLeave <buffer> :call <SID>write_download_list()<CR>
+
 function! s:main_window()
   let s:listbufnr = bufnr('')
   setlocal cursorline
@@ -19,7 +21,6 @@ function! s:main_window()
   noremap <buffer> <leader>f :call <SID>favorite_this_podcast()<CR> 
 
   autocmd BufEnter <buffer> :setlocal nowrap
-  autocmd VimLeave <buffer> :call <SID>write_download_list()<CR>
 endfunction
 
 function! s:item_window() 
