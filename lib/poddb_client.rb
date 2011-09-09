@@ -50,6 +50,7 @@ class PoddbClient
       add_podcast
     elsif @list_podcasts
       list_podcasts
+      interactive
     elsif @from_podcasts_file
       from_podcasts
       interactive
@@ -70,6 +71,10 @@ class PoddbClient
   end
 
   def interactive
+    if !STDOUT.tty?
+      puts @output
+      exit
+    end
     File.open(OUTFILE, 'w') {|f| f.puts @output}
     system("vim -S #{VIMSCRIPT} #{OUTFILE}")
     download_marked_items
@@ -82,8 +87,7 @@ class PoddbClient
   end
 
   def list_podcasts
-    output = `curl -s #{SERVER}/podcasts`
-
+    @output = `curl -s #{SERVER}/podcasts`
   end
 
   def all_recent
