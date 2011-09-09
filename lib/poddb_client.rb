@@ -8,6 +8,7 @@ class PoddbClient
   # TODO: change to poddb.com
   SERVER = "http://localhost:3000"
 
+  PODDB_DIR = "%s/.poddb" % ENV['HOME']
   CACHE_DIR = "%s/.poddb/cache" % ENV['HOME']
   `mkdir -p #{CACHE_DIR}`
 
@@ -26,18 +27,20 @@ class PoddbClient
 
   def parse_options
     OptionParser.new do |opts|
-      opts.banner = "Usage: poddb [options]"
+      opts.banner = "Usage: poddb [options] [query]"
       opts.separator ""
-      opts.on("-A", "--all-recent", "Show all recent podcast items") do 
-        @all_recent = true
-      end
-      opts.on("-f", "--from-podcasts FILE", "Show all recent items from podcasts in FILE") do |file|
-        @from_podcasts_file = file
+      opts.on("-f", "--favorites [FILE]", "Show all recent items from podcasts in FILE or in cached favorites list") do |file|
+        default_favorites = "%s/favorites" % PODDB_DIR
+        @podcast_list_file = file || default_favorites
+        if ! File.size?(@podcast_list_file)
+          puts "No podcasts found in #{@podcast_list_file}"
+          exit
+        end
       end
       opts.on("-a", "--add PODCAST_URL", "Add podcast with PODCAST_URL to the poddb database") do |podcast_url|
         @add_podcast = podcast_url
       end
-      opts.on("-l", "--list", "List add podcasts in the poddb database") do 
+      opts.on("-l", "--list", "List all podcasts in the poddb database") do 
         @list_podcasts = true
       end
       opts.on_tail("-h", "--help", "Show this message") do
@@ -53,11 +56,9 @@ class PoddbClient
     elsif @list_podcasts
       list_podcasts
       interactive
-    elsif @from_podcasts_file
+    elsif @podcast_list_file
       from_podcasts
       interactive
-    elsif @all_recent
-      all_recent
     else
       search
       interactive
@@ -86,17 +87,13 @@ class PoddbClient
   end
 
   def from_podcasts
-    podcast_ids = File.readlines(@from_podcasts_file).map {|x| x[/(\d+)\s*$/,1]}.compact.join(',')
+    podcast_ids = File.readlines(@podcast_list_file).map {|x| x[/(\d+)\s*$/,1]}.compact.join(',')
     @output = `curl -s #{SERVER}/items?podcast_ids=#{podcast_ids}`
   end
 
   def list_podcasts
     @outfile = PODCAST_LIST_OUTFILE
     @output = `curl -s #{SERVER}/podcasts`
-  end
-
-  def all_recent
-    puts 'all recent'
   end
 
   def search
