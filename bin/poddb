@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+require 'poddb_client'
+
+PoddbClient.new(ARGV).run
+
