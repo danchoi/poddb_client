@@ -15,6 +15,7 @@ class PoddbClient
   VIMSCRIPT = "lib/interactive.vim"
   ITEM_LIST_OUTFILE = "#{CACHE_DIR}/main.itemlist"
   PODCAST_LIST_OUTFILE = "#{CACHE_DIR}/main.podcastlist"
+  FAVORITE_PODCASTS_FILE = "#{PODDB_DIR}/favorites"
 
   include PoddbClient::Downloading
 
@@ -78,7 +79,9 @@ class PoddbClient
       puts @output
       exit
     end
-    File.open(@outfile, 'w') {|f| f.puts @output}
+    File.open(@outfile, 'w') {|f| 
+      f.puts @output
+    }
     cmd = "vim -S #{VIMSCRIPT} #{@outfile} #{@poddb_env}"
     puts cmd
     system(cmd)
@@ -94,6 +97,16 @@ class PoddbClient
   def list_podcasts
     @outfile = PODCAST_LIST_OUTFILE
     @output = `curl -s #{SERVER}/podcasts`
+    if File.size?(FAVORITE_PODCASTS_FILE)
+      favorite_podcast_ids = File.readlines(FAVORITE_PODCASTS_FILE).map(&:strip)
+      @output = @output.split("\n").map {|line|
+        if (podcast_id = line[/\d+$/,0]) && favorite_podcast_ids.include?(podcast_id)
+          line.sub(/^ /, "@")
+        else
+          line
+        end
+      }.join("\n")
+    end
   end
 
   def search

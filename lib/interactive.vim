@@ -125,9 +125,11 @@ function! s:favorite_this_podcast()
   if (match(line, "^@") != -1)
     let newline = substitute(line, '^@', ' ', '')
     let tmp = tempname()
+    " alter favorites file 
     call system("grep -v '^".podcastId."$' ".s:favorite_podcasts_list." | uniq > ".tmp."  &&  mv ".tmp." ".s:favorite_podcasts_list)
   else
     let newline = substitute(line, '^ ', '@', '')
+    " append to favorites file 
     call system("echo ".podcastId." >> ".s:favorite_podcasts_list ." &")
   endif
   setlocal modifiable
