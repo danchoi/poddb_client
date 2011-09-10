@@ -40,7 +40,7 @@ class PoddbClient
       opts.on("-a", "--add PODCAST_URL", "Add podcast with PODCAST_URL to the poddb database") do |podcast_url|
         @add_podcast = podcast_url
       end
-      opts.on("-l", "--list", "List all podcasts in the poddb database") do 
+      opts.on("-l", "--list", "List all podcasts in the poddb database", "(If query is supplied, will return matching podcasts)") do 
         @list_podcasts = true
       end
       opts.on("-F", "--favorite-podcasts", "Show favorite podcasts") do
@@ -58,6 +58,7 @@ class PoddbClient
         exit
       end
     end.parse!(@args)
+    @query = CGI::escape(@args.join(' ').strip)
   end
 
   def run
@@ -104,7 +105,7 @@ class PoddbClient
   def list_podcasts
     @outfile = PODCAST_LIST_OUTFILE
     @output = if @list_podcasts
-                `curl -s #{SERVER}/podcasts`
+                `curl -s #{SERVER}/podcasts?q=#{@query}`
               elsif @list_favorite_podcasts 
                 `curl -s #{SERVER}/podcasts?podcast_ids=#{favorite_podcast_ids.join(',')}`
               end
@@ -126,8 +127,7 @@ class PoddbClient
   end
 
   def search
-    query = @args.join(' ').strip
-    @output = `curl -s '#{SERVER}/search?q=#{CGI::escape(query)}#{@media_type_param}'`
+    @output = `curl -s '#{SERVER}/search?q=#{@query}#{@media_type_param}'`
     mark_already_downloaded
   end
 
