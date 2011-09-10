@@ -4,7 +4,7 @@ require 'uri'
 class PoddbClient
   module Downloading
     def titleize(s, maxlength=20) 
-      s.gsub(/\W+/, '_')[0,maxlength].sub(/_$/, '')
+      s.gsub(/\W+/, '-')[0,maxlength].sub(/-$/, '')
     end
 
     def download(item_id)
@@ -13,12 +13,12 @@ class PoddbClient
       item = data[:item]
       podcast = data[:podcast]
       enclosure_url = item[:enclosure_url]
-      title_fragment = titleize item[:title], 40
-      podcast_fragment = titleize podcast[:title], 30
+      title_fragment = titleize item[:title], 50
+      podcast_fragment = titleize podcast[:title], 40
 
       filename_suffix = File.extname(URI.parse(enclosure_url).path)
 
-      filename = "%s.%s.poddb_%s%s" % [podcast_fragment, title_fragment, item_id.to_s, filename_suffix]
+      filename = "%s.%s.poddb%s%s" % [podcast_fragment, title_fragment, item_id.to_s, filename_suffix]
       puts "Downloading #{enclosure_url} as #{filename}"
       cmd = "wget -O #{filename} '#{enclosure_url}' && touch #{filename}"
       `#{cmd}`

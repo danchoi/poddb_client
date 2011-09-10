@@ -85,14 +85,24 @@ class PoddbClient
       puts @output
       exit
     end
-    File.open(@outfile, 'w') {|f| 
-      f.puts @output
-    }
+    File.open(@outfile, 'w') {|f| f.puts @output }
     cmd = "vim -S #{VIMSCRIPT} #{@outfile} #{@poddb_env}"
     puts cmd
     system(cmd)
     download_marked_items
     cleanup
+  end
+
+  def mark_already_downloaded
+    @downloaded_item_ids = Dir['*poddb*'].map { |f| f[/poddb(\d+)/,1] }.compact
+    @output = @output.split(/\n/).map {|line| 
+      item_id = line[/\d+$/,0] 
+      if @downloaded_item_ids.include?(item_id)
+        line.sub(/^ /, 'D')
+      else
+        line
+      end
+    }.join("\n")
   end
 
   def favorite_podcast_ids
@@ -105,6 +115,7 @@ class PoddbClient
 
   def items_from_favorites
     @output = `curl -s #{SERVER}/items?podcast_ids=#{favorite_podcast_ids.join(',')}`
+    mark_already_downloaded
   end
 
   def list_podcasts
@@ -127,8 +138,9 @@ class PoddbClient
   end
 
   def search
-    query = @args.join(' ')
+    query = @args.join(' ').strip
     @output = `curl -s #{SERVER}/search?q=#{CGI::escape(query)}`
+    mark_already_downloaded
   end
 
   def cleanup

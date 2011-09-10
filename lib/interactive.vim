@@ -65,7 +65,7 @@ function! s:mark_for_download() range
     if (match(line, "^*") != -1)
       let newline = substitute(line, '^*', ' ', '')
     else
-      let newline = substitute(line, '^ ', '*', '')
+      let newline = substitute(line, '^.', '*', '')
     endif
     call setline(lnum, newline)
     let lnum += 1
