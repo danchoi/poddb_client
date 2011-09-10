@@ -50,6 +50,9 @@ class PoddbClient
         end
         @list_favorite_podcasts = true
       end
+      opts.on("-t", "--type MEDIA_TYPE", "Return items of MEDIA_TYPE only (audio,video)") do |media_type|
+        @media_type_param = "&media_type=#{media_type}"
+      end
       opts.on_tail("-h", "--help", "Show this message") do
         puts opts
         exit
@@ -93,31 +96,6 @@ class PoddbClient
     cleanup
   end
 
-  def mark_already_downloaded
-    @downloaded_item_ids = Dir['*poddb*'].map { |f| f[/poddb(\d+)/,1] }.compact
-    @output = @output.split(/\n/).map {|line| 
-      item_id = line[/\d+$/,0] 
-      if @downloaded_item_ids.include?(item_id)
-        line.sub(/^ /, 'D')
-      else
-        line
-      end
-    }.join("\n")
-  end
-
-  def favorite_podcast_ids
-    if File.size?(FAVORITE_PODCASTS_FILE)
-      File.readlines(FAVORITE_PODCASTS_FILE).map(&:strip).select {|x| x != ''}
-    else
-      []
-    end
-  end
-
-  def items_from_favorites
-    @output = `curl -s #{SERVER}/items?podcast_ids=#{favorite_podcast_ids.join(',')}`
-    mark_already_downloaded
-  end
-
   def list_podcasts
     @outfile = PODCAST_LIST_OUTFILE
     @output = if @list_podcasts
@@ -137,14 +115,43 @@ class PoddbClient
     end
   end
 
+  def items_from_favorites
+    @output = `curl -s '#{SERVER}/items?podcast_ids=#{favorite_podcast_ids.join(',')}#{@media_type_param}'`
+    mark_already_downloaded
+  end
+
   def search
+    puts @media_type_param
     query = @args.join(' ').strip
-    @output = `curl -s #{SERVER}/search?q=#{CGI::escape(query)}`
+    @output = `curl -s '#{SERVER}/search?q=#{CGI::escape(query)}#{@media_type_param}'`
     mark_already_downloaded
   end
 
   def cleanup
     `rm -rf #{CACHE_DIR}/*`
   end
+
+private
+
+  def favorite_podcast_ids
+    if File.size?(FAVORITE_PODCASTS_FILE)
+      File.readlines(FAVORITE_PODCASTS_FILE).map(&:strip).select {|x| x != ''}
+    else
+      []
+    end
+  end
+
+  def mark_already_downloaded
+    @downloaded_item_ids = Dir['*poddb*'].map { |f| f[/poddb(\d+)/,1] }.compact
+    @output = @output.split(/\n/).map {|line| 
+      item_id = line[/\d+$/,0] 
+      if @downloaded_item_ids.include?(item_id)
+        line.sub(/^ /, 'D')
+      else
+        line
+      end
+    }.join("\n")
+  end
+
 
 end
