@@ -62,6 +62,7 @@ class PoddbClient
   end
 
   def run
+    cleanup
     if @add_podcast
       add_podcast
     elsif @list_podcasts || @list_favorite_podcasts 
