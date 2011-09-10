@@ -113,7 +113,8 @@ function! s:is_podcast_list()
 endfunct
 
 function! s:favorite_this_podcast()
-  if s:is_podcast_list()
+  let is_podcast_list = s:is_podcast_list()
+  if is_podcast_list
     let podcastId = matchstr( matchstr(getline(line('.')), '\d\+\s*$'), '\d\+' )
   else
     let podcastId = matchstr( matchstr(getline(line('.')), '\d\+ |\s*\d\+$'), '\d\+' )
@@ -121,6 +122,11 @@ function! s:favorite_this_podcast()
   if (podcastId == '')
     return
   endif
+  if !is_podcast_list
+    call system("echo ".podcastId." >> ".s:favorite_podcasts_list)
+    echom "Added this podcast to favorites"
+    return
+  end
   let line = getline('.')
   if (match(line, "^@") != -1)
     let newline = substitute(line, '^@', ' ', '')
@@ -130,7 +136,7 @@ function! s:favorite_this_podcast()
   else
     let newline = substitute(line, '^ ', '@', '')
     " append to favorites file 
-    call system("echo ".podcastId." >> ".s:favorite_podcasts_list ." &")
+    call system("echo ".podcastId." >> ".s:favorite_podcasts_list)
   endif
   setlocal modifiable
   call setline(line('.'), newline)
