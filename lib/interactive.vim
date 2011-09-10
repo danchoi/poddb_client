@@ -106,13 +106,17 @@ function! s:show_podcast_items(podcastId)
   if (podcastId == '')
     return
   endif
+  let command = "curl -s '".s:base_url."/podcast/".podcastId."/items'"
+  let contents = system(command)
+  if contents =~ 'No matches\c'
+    echom "No items!"
+    return
+  endif
   call s:focus_window(s:itembufnr)
   close!
-  let command = "curl -s '".s:base_url."/podcast/".podcastId."/items'"
   let outfile = s:poddb_cache_dir . "/podcast-" . podcastId . "-itemlist" 
-  let contents = system(command)
   call writefile(split(contents, "\n"), outfile)
-  exec "e ".outfile
+  exec "e+3 ".outfile
   call s:main_window()
 endfunc
 
