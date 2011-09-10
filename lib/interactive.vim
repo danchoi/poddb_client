@@ -58,6 +58,10 @@ function! s:mark_for_download() range
     return
   end
   call s:focus_window(s:listbufnr)
+  let itemId = matchstr( matchstr(getline(line('.')), '\d\+\s*$'), '\d\+' )
+  if itemId == ''
+    return
+  endif
   setlocal modifiable
   let lnum = a:firstline
   while lnum <= a:lastline
