@@ -88,6 +88,11 @@ class PoddbClient
       puts @output
       exit
     end
+    if @output =~ /^No matches/i
+      puts @output
+      exit
+    end
+
     File.open(@outfile, 'w') {|f| f.puts @output }
     cmd = "vim -S #{VIMSCRIPT} #{@outfile} #{@poddb_env}"
     puts cmd
@@ -121,7 +126,6 @@ class PoddbClient
   end
 
   def search
-    puts @media_type_param
     query = @args.join(' ').strip
     @output = `curl -s '#{SERVER}/search?q=#{CGI::escape(query)}#{@media_type_param}'`
     mark_already_downloaded
