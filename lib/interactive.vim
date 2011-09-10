@@ -123,7 +123,7 @@ function! s:favorite_this_podcast()
     return
   endif
   if !is_podcast_list
-    call system("echo ".podcastId." >> ".s:favorite_podcasts_list)
+    call system("grep '^".podcastId."$' ".s:favorite_podcasts_list." ||  echo ".podcastId." >> ".s:favorite_podcasts_list)
     echom "Added this podcast to favorites"
     return
   end
