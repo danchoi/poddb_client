@@ -4,7 +4,9 @@ call system("mkdir -p ".s:poddb_cache_dir)
 
 let s:favorite_podcasts_list = $HOME."/.poddb/favorites"
 
-autocmd VimLeave <buffer> :call <SID>write_download_list()<CR>
+let s:download_list = []
+
+autocmd VimLeave * :call <SID>write_download_list()<CR>
 
 " main_window() is a list of items, shown from search and by show_podcast_items()
 function! s:main_window()
@@ -68,8 +70,10 @@ function! s:mark_for_download() range
     let line = getline(lnum)
     if (match(line, "^*") != -1)
       let newline = substitute(line, '^*', ' ', '')
+      call filter(s:download_list, 'v:val == itemId')  
     else
       let newline = substitute(line, '^.', '*', '')
+      call add(s:download_list, itemId)
     endif
     call setline(lnum, newline)
     let lnum += 1
@@ -80,9 +84,10 @@ function! s:mark_for_download() range
 endfunc
 
 function! s:write_download_list() 
-  call s:focus_window(s:listbufnr)
   let outfile = s:poddb_cache_dir . "/download_list"
-  exec '! cat % | grep "^\*" > '.outfile
+  echo s:download_list
+  " sleep 1
+  call writefile(s:download_list, outfile)
 endfunc
 
 function! s:show_podcast_items(podcastId)
