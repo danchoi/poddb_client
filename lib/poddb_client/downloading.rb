@@ -3,6 +3,8 @@ require 'uri'
 
 class PoddbClient
   module Downloading
+
+
     def titleize(s, maxlength=20) 
       s.gsub(/\W+/, '-')[0,maxlength].sub(/-$/, '')
     end
@@ -18,9 +20,9 @@ class PoddbClient
 
       filename_suffix = File.extname(URI.parse(enclosure_url).path)
 
-      filename = "%s.%s.poddb%s%s" % [podcast_fragment, title_fragment, item_id.to_s, filename_suffix]
-      puts "Downloading #{enclosure_url} as #{filename}"
-      cmd = "wget -O #{filename} '#{enclosure_url}' && touch #{filename}"
+      @filename = "%s.%s.poddb%s%s" % [podcast_fragment, title_fragment, item_id.to_s, filename_suffix]
+      puts "Downloading #{enclosure_url} as #{@filename}"
+      cmd = "wget -O #{@filename} '#{enclosure_url}' && touch #{@filename}"
       `#{cmd}`
     end
 
@@ -33,7 +35,19 @@ class PoddbClient
       item_ids.each do |item_id| 
         download item_id
       end
-      
+    end
+
+
+    def download_and_play?
+      File.size? DOWNLOAD_AND_PLAY_FILE
+    end
+
+    def download_and_play
+      item_id = File.read(DOWNLOAD_AND_PLAY_FILE).strip
+      abort("No item id found") if item_id !~ /\d/
+      download item_id
+      media_player_cmd = ENV['PODDB_MEDIA_PLAYER'] || 'mplayer'
+      exec("#{media_player_cmd} #@filename")
     end
   end
 end

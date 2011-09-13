@@ -1,7 +1,10 @@
+let s:client_cmd = "ruby -Ilib bin/poddb"  
 let s:base_url = "http://localhost:3000"
+
+let s:download_and_play_cmd = s:client_cmd." --download-and-play "
+
 let s:poddb_cache_dir = $HOME."/.poddb/cache"
 call system("mkdir -p ".s:poddb_cache_dir)
-
 let s:favorite_podcasts_list = $HOME."/.poddb/favorites"
 
 let s:download_list = []
@@ -18,6 +21,7 @@ function! s:main_window()
   noremap <buffer> <cr> :call <SID>show_item()<cr>
   noremap <buffer> l :call <SID>show_item()<cr>
   noremap <buffer> d :call <SID>mark_for_download()<cr>
+  noremap <buffer> D :call <SID>download_and_play()<cr>
   noremap <buffer> p :call <SID>show_podcast_items('')<cr>
   noremap <buffer> <c-j> :call <SID>show_next_item(0)<CR> 
   noremap <buffer> <c-k> :call <SID>show_next_item(1)<CR> 
@@ -156,6 +160,14 @@ function! s:favorite_this_podcast()
   setlocal nomodifiable
   write!
   normal 0
+endfunc
+
+function! s:download_and_play()
+  let itemId = matchstr( matchstr(getline(line('.')), '\d\+\s*$'), '\d\+' )
+  let outfile = s:poddb_cache_dir . "/download_and_play"
+  call system("echo ".itemId." > ".outfile)
+  call writefile(itemId, outfile)
+  qa!
 endfunc
 
 function! s:focus_window(target_bufnr)

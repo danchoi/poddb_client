@@ -16,6 +16,7 @@ class PoddbClient
   ITEM_LIST_OUTFILE = "#{CACHE_DIR}/main.itemlist"
   PODCAST_LIST_OUTFILE = "#{CACHE_DIR}/main.podcastlist"
   FAVORITE_PODCASTS_FILE = "#{PODDB_DIR}/favorites"
+  DOWNLOAD_AND_PLAY_FILE = "#{CACHE_DIR}/download_and_play"
 
   include PoddbClient::Downloading
 
@@ -52,6 +53,9 @@ class PoddbClient
       end
       opts.on("-t", "--type MEDIA_TYPE", "Return items of MEDIA_TYPE only (audio,video)") do |media_type|
         @media_type_param = "&media_type=#{media_type}"
+      end
+      opts.on("--download-and-play ITEM_ID", "Download item and play with PODDB_MEDIA_PLAYER") do |item_id|
+        puts "Download and play #{item_id}"
       end
       opts.on_tail("-h", "--help", "Show this message") do
         puts opts
@@ -99,7 +103,11 @@ class PoddbClient
     cmd = "vim -S #{VIMSCRIPT} #{@outfile} #{@poddb_env}"
     puts cmd
     system(cmd)
-    download_marked_items
+    if download_and_play?
+      download_and_play
+    else
+      download_marked_items
+    end
     cleanup
   end
 
