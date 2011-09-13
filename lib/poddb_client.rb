@@ -61,6 +61,11 @@ class PoddbClient
         puts opts
         exit
       end
+      opts.on_tail("-v", "--version", "Show version number") do
+        require 'poddb_client/version'
+        puts "poddb #{VERSION}"
+        exit
+      end
     end.parse!(@args)
     @query = CGI::escape(@args.join(' ').strip)
   end
