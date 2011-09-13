@@ -11,6 +11,10 @@ let s:download_list = []
 
 autocmd VimLeave * :call <SID>write_download_list()<CR>
 
+function! PoddbStatusLine()
+  return "%<%f\ | Press ".g:mapleader."? for help. "."%r%=%-14.(%l,%c%V%)\ %P"
+endfunction
+
 " main_window() is a list of items, shown from search and by show_podcast_items()
 function! s:main_window()
   let s:listbufnr = bufnr('')
@@ -18,6 +22,7 @@ function! s:main_window()
   setlocal nowrap
   setlocal textwidth=0
   setlocal nomodifiable
+  setlocal statusline=%!PoddbStatusLine()
   noremap <buffer> <cr> :call <SID>show_item()<cr>
   noremap <buffer> l :call <SID>show_item()<cr>
   noremap <buffer> d :call <SID>mark_for_download()<cr>
@@ -27,6 +32,7 @@ function! s:main_window()
   noremap <buffer> <c-k> :call <SID>show_next_item(1)<CR> 
   noremap <buffer> f :call <SID>favorite_this_podcast()<CR> 
   autocmd BufEnter <buffer> :setlocal nowrap
+  noremap <buffer> <Leader>? :call <SID>help()<CR>
 endfunction
 
 function! s:item_window() 
@@ -212,6 +218,13 @@ function! s:show_next_item(previous)
   normal 0 
   redraw
 endfunction
+
+function! s:help()
+  " This just displays the README
+  let res = system(s:client_cmd." --key-mappings")
+  echo res  
+endfunction
+
 
 call s:main_window()
 call s:item_window()

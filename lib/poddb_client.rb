@@ -57,6 +57,10 @@ class PoddbClient
       opts.on("--download-and-play ITEM_ID", "Download item and play with PODDB_MEDIA_PLAYER") do |item_id|
         puts "Download and play #{item_id}"
       end
+      opts.on("--key-mappings", "Show key mappings for Vim navigation interface") do
+        puts "KEYMAPPINGS"
+        exit
+      end
       opts.on_tail("-h", "--help", "Show this message") do
         puts opts
         exit
