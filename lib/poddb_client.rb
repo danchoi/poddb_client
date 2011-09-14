@@ -87,7 +87,6 @@ class PoddbClient
       @params << "q=#{q}"
     end
     @params = @params.empty? ? '' : @params.join('&')
-    puts @params.inspect
   end
 
   def run
