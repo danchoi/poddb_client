@@ -221,3 +221,5 @@ call s:item_window()
 
 normal 3G
 
+echom $PODDB_SEARCH_TERMS
+

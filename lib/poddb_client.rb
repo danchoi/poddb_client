@@ -109,7 +109,7 @@ class PoddbClient
     end
 
     File.open(@outfile, 'w') {|f| f.puts @output }
-    cmd = "vim -S #{VIMSCRIPT} #{@outfile} #{@poddb_env}"
+    cmd = "vim -S #{VIMSCRIPT} #{@outfile} "
     puts cmd
     system(cmd)
     if download_and_play?
