@@ -44,8 +44,11 @@ class PoddbClient
       opts.on("-a", "--add PODCAST_URL", "Add podcast with PODCAST_URL to the poddb database") do |podcast_url|
         @add_podcast = podcast_url
       end
-      opts.on("-l", "--list", "List all podcasts in the poddb database", "(If query is supplied, will return matching podcasts)") do 
+      opts.on("-l", "--list [QUERY]", "List all podcasts in the poddb database", "(If QUERY is supplied, will return matching podcasts)") do |query|
         @list_podcasts = true
+        if query
+          @params << "q=#{CGI::escape(query)}"
+        end
       end
       opts.on("-F", "--favorite-podcasts", "Show favorite podcasts") do
         if ! File.size?(FAVORITE_PODCASTS_FILE)
@@ -79,8 +82,12 @@ class PoddbClient
         exit
       end
     end.parse!(@args)
-    @params = @params.empty? ? '' : ("&" + @params.join('&'))
-    @query = CGI::escape(@args.join(' ').strip)
+    q = CGI::escape(@args.join(' ').strip)
+    if q != '' 
+      @params << "q=#{q}"
+    end
+    @params = @params.empty? ? '' : @params.join('&')
+    puts @params.inspect
   end
 
   def run
@@ -132,9 +139,9 @@ class PoddbClient
   def list_podcasts
     @outfile = PODCAST_LIST_OUTFILE
     @output = if @list_podcasts
-                `curl -s #{SERVER}/podcasts?q=#{@query}#@params`
+                `curl -s '#{SERVER}/podcasts?#@params'`
               elsif @list_favorite_podcasts 
-                `curl -s #{SERVER}/podcasts?podcast_ids=#{favorite_podcast_ids.join(',')}#@params`
+                `curl -s '#{SERVER}/podcasts?podcast_ids=#{favorite_podcast_ids.join(',')}'`
               end
     if File.size?(FAVORITE_PODCASTS_FILE)
       @output = @output.split("\n").map {|line|
@@ -149,12 +156,12 @@ class PoddbClient
   end
 
   def items_from_favorites
-    @output = `curl -s '#{SERVER}/items?podcast_ids=#{favorite_podcast_ids.join(',')}#@params'`
+    @output = `curl -s '#{SERVER}/items?podcast_ids=#{favorite_podcast_ids.join(',')}&#@params'`
     mark_already_downloaded
   end
 
   def search
-    @output = `curl -s '#{SERVER}/search?q=#{@query}#@params'`
+    @output = `curl -s '#{SERVER}/search?#@params'`
     mark_already_downloaded
   end
 
