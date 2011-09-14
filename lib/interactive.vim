@@ -42,6 +42,8 @@ function! s:item_window()
   noremap <buffer> <c-j> :call <SID>show_next_item(0)<CR> 
   noremap <buffer> <c-k> :call <SID>show_next_item(1)<CR> 
   noremap <buffer> d :call <SID>mark_for_download()<cr>
+  nnoremap <buffer> o :call <SID>find_next_href_and_open()<CR>
+  nnoremap <buffer> O :call <SID>open_all_hrefs()<CR>
   close
 endfunction
 
@@ -59,8 +61,10 @@ function! s:show_item()
   let command = "curl -s '".s:base_url."/item/".itemId."'"
   let res = system(command)
   call s:focus_window(s:itembufnr)
+  setlocal modifiable
   silent! 1,$delete
   silent! put! =res
+  setlocal nomodifiable
   normal 1G
   wincmd p
 endfunc
@@ -214,6 +218,49 @@ function! s:help()
   let res = system(s:client_cmd." --key-mappings")
   echo res  
 endfunction
+
+" ------------------------------------------------------------------------ 
+" open links in external browser 
+
+if !exists("g:Poddb#browser_command")
+  for cmd in ["gnome-open", "open"] 
+    if executable(cmd)
+      let g:Poddb#browser_command = cmd
+      break
+    endif
+  endfor
+  if !exists("g:Poddb#browser_command")
+    echom "Can't find the to open your web browser."
+  endif
+endif
+
+let s:http_link_pattern = 'https\?:[^ >)\]]\+'
+
+func! s:open_href_under_cursor()
+  let href = matchstr(expand("<cWORD>") , s:http_link_pattern)
+  let command = g:Poddb#browser_command . " '" . shellescape(href) . "' "
+  call system(command)
+endfunc
+
+func! s:find_next_href_and_open()
+  let res = search(s:http_link_pattern, 'cw')
+  if res != 0
+    call s:open_href_under_cursor()
+  endif
+endfunc
+
+func! s:open_all_hrefs()
+  let n = 0
+  let line = search(s:http_link_pattern, 'cw')
+  while line
+    call s:open_href_under_cursor()
+    let n += 1
+    let line = search(s:http_link_pattern, 'W')
+  endwhile
+  echom 'opened '.n.' links' 
+endfunc
+
+" ------------------------------------------------------------------------
 
 
 call s:main_window()
