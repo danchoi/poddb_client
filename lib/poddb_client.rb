@@ -27,6 +27,7 @@ class PoddbClient
     @params = ["v=#{PoddbClient::VERSION}" ]
     @outfile = ITEM_LIST_OUTFILE # changed only for podcast list
     @version = PoddbClient::VERSION
+    @query = []
     parse_options
   end
 
@@ -47,7 +48,7 @@ class PoddbClient
       opts.on("-l", "--list [QUERY]", "List all podcasts in the poddb database", "(If QUERY is supplied, will return matching podcasts)") do |query|
         @list_podcasts = true
         if query
-          @params << "q=#{CGI::escape(query)}"
+          @query << query
         end
       end
       opts.on("-F", "--favorite-podcasts", "Show favorite podcasts") do
@@ -82,7 +83,8 @@ class PoddbClient
         exit
       end
     end.parse!(@args)
-    q = CGI::escape(@args.join(' ').strip)
+    @query = @query.concat @args
+    q = CGI::escape(@query.join(' ').strip)
     if q != '' 
       @params << "q=#{q}"
     end
@@ -106,14 +108,13 @@ class PoddbClient
   end
 
   def add_podcast
-    puts "Adding podcast..."
+    puts "Adding podcast with url: #{@add_podcast}"
     res = Net::HTTP.post_form(URI.parse("#{SERVER}/podcasts"), 'url' => @add_podcast).body
     if res =~ /^Error/
       puts res
     else
       podcast_id, title = res.split(/\s+/, 2)
       add_to_favorite_podcasts(podcast_id)
-      puts "Added '#{title}' [##{podcast_id}] to your favorite podcasts. Type `poddb -F` to show your favorites."
     end
   end
 
@@ -175,20 +176,24 @@ private
 
   def favorite_podcast_ids
     if File.size?(FAVORITE_PODCASTS_FILE)
-      File.readlines(FAVORITE_PODCASTS_FILE).map(&:strip).select {|x| x != ''}
+      File.readlines(FAVORITE_PODCASTS_FILE).map(&:strip).select {|x| x =~ /\d+/}.map {|x| x.to_i}
     else
       []
     end
   end
 
   def add_to_favorite_podcasts(podcast_id)
-    if File.size?(FAVORITE_PODCASTS_FILE) && 
-      File.read(FAVORITE_PODCASTS_FILE).split("\n").any? {|line| line.strip == podcast_id.to_s}
+    if File.size?(FAVORITE_PODCASTS_FILE) && File.read(FAVORITE_PODCASTS_FILE).split("\n").any? {|line| line.strip == podcast_id.to_s}
       return
     end
+    if podcast_id !~ /\d/
+      return
+    end
+    podcast_id = podcast_id.to_i
     File.open(FAVORITE_PODCASTS_FILE, 'a') {|f|
       f.puts podcast_id
     }
+    puts "Added '#{title}' [##{podcast_id}] to your favorite podcasts. Type `poddb -F` to show your favorites."
   end
 
   def mark_already_downloaded
