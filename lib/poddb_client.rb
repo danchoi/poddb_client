@@ -24,6 +24,7 @@ class PoddbClient
   def initialize(args)
     @args = args
     @options = {}
+    @params = []
     @outfile = ITEM_LIST_OUTFILE # changed only for podcast list
     @version = PoddbClient::VERSION
     parse_options
@@ -53,8 +54,14 @@ class PoddbClient
         end
         @list_favorite_podcasts = true
       end
+      opts.on("-o", "--order ORDER", "Sort results by ORDER", "The only option right now is 'popular'. Default order is pubdate.") do |order|
+        @params << "o=#{order}"
+      end
+      opts.on("-d", "--days DAYS", "Limit results to items published since DAYS days ago") do |days|
+        @params << "d=#{days}"
+      end
       opts.on("-t", "--type MEDIA_TYPE", "Return items of MEDIA_TYPE only (audio,video)") do |media_type|
-        @media_type_param = "&media_type=#{media_type}"
+        @params << "t=#{media_type}"
       end
       opts.on("--download-and-play ITEM_ID", "Download item and play with PODDB_MEDIA_PLAYER") do |item_id|
         puts "Download and play #{item_id}"
@@ -72,6 +79,7 @@ class PoddbClient
         exit
       end
     end.parse!(@args)
+    @params = @params.empty? ? '' : ("&" + @params.join('&'))
     @query = CGI::escape(@args.join(' ').strip)
   end
 
@@ -141,12 +149,12 @@ class PoddbClient
   end
 
   def items_from_favorites
-    @output = `curl -s '#{SERVER}/items?v=#@version&podcast_ids=#{favorite_podcast_ids.join(',')}#{@media_type_param}'`
+    @output = `curl -s '#{SERVER}/items?v=#@version&podcast_ids=#{favorite_podcast_ids.join(',')}#{@params}'`
     mark_already_downloaded
   end
 
   def search
-    @output = `curl -s '#{SERVER}/search?v=#@version&q=#{@query}#{@media_type_param}'`
+    @output = `curl -s '#{SERVER}/search?v=#@version&q=#{@query}#{@params}'`
     mark_already_downloaded
   end
 
