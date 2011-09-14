@@ -24,7 +24,7 @@ class PoddbClient
   def initialize(args)
     @args = args
     @options = {}
-    @params = []
+    @params = ["v=#{PoddbClient::VERSION}" ]
     @outfile = ITEM_LIST_OUTFILE # changed only for podcast list
     @version = PoddbClient::VERSION
     parse_options
@@ -132,9 +132,9 @@ class PoddbClient
   def list_podcasts
     @outfile = PODCAST_LIST_OUTFILE
     @output = if @list_podcasts
-                `curl -s #{SERVER}/podcasts?v=#@version&q=#{@query}`
+                `curl -s #{SERVER}/podcasts?q=#{@query}#@params`
               elsif @list_favorite_podcasts 
-                `curl -s #{SERVER}/podcasts?v=#@version&podcast_ids=#{favorite_podcast_ids.join(',')}`
+                `curl -s #{SERVER}/podcasts?podcast_ids=#{favorite_podcast_ids.join(',')}#@params`
               end
     if File.size?(FAVORITE_PODCASTS_FILE)
       @output = @output.split("\n").map {|line|
@@ -149,12 +149,12 @@ class PoddbClient
   end
 
   def items_from_favorites
-    @output = `curl -s '#{SERVER}/items?v=#@version&podcast_ids=#{favorite_podcast_ids.join(',')}#{@params}'`
+    @output = `curl -s '#{SERVER}/items?podcast_ids=#{favorite_podcast_ids.join(',')}#@params'`
     mark_already_downloaded
   end
 
   def search
-    @output = `curl -s '#{SERVER}/search?v=#@version&q=#{@query}#{@params}'`
+    @output = `curl -s '#{SERVER}/search?q=#{@query}#@params'`
     mark_already_downloaded
   end
 
