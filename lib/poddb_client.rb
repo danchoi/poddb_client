@@ -107,11 +107,14 @@ class PoddbClient
 
   def add_podcast
     puts "Adding podcast..."
-    res = Net::HTTP.post_form(URI.parse("#{SERVER}/podcasts"), 'url' => @add_podcast)
-    puts res.body.inspect
-    podcast_id, title = res.body.split(/\s+/, 2)
-    add_to_favorite_podcasts(podcast_id)
-    puts "Added '#{title}' [##{podcast_id}] to your favorite podcasts. Type `poddb -F` to show your favorites."
+    res = Net::HTTP.post_form(URI.parse("#{SERVER}/podcasts"), 'url' => @add_podcast).body
+    if res =~ /^Error/
+      puts res
+    else
+      podcast_id, title = res.split(/\s+/, 2)
+      add_to_favorite_podcasts(podcast_id)
+      puts "Added '#{title}' [##{podcast_id}] to your favorite podcasts. Type `poddb -F` to show your favorites."
+    end
   end
 
   def interactive
