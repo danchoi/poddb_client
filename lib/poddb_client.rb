@@ -93,7 +93,6 @@ class PoddbClient
     cleanup
     if @add_podcast
       add_podcast
-      interactive
     elsif @list_podcasts || @list_favorite_podcasts 
       list_podcasts
       interactive
@@ -108,9 +107,11 @@ class PoddbClient
 
   def add_podcast
     puts "Adding podcast..."
-    res = Net::HTTP.post_form(URI.parse("#{SERVER}/podcasts"),
-                              'url' => @add_podcast)
-    @output = res.body
+    res = Net::HTTP.post_form(URI.parse("#{SERVER}/podcasts"), 'url' => @add_podcast)
+    puts res.body.inspect
+    podcast_id, title = res.body.split(/\s+/, 2)
+    add_to_favorite_podcasts(podcast_id)
+    puts "Added '#{title}' [##{podcast_id}] to your favorite podcasts. Type `poddb -F` to show your favorites."
   end
 
   def interactive
@@ -122,7 +123,6 @@ class PoddbClient
       puts @output
       exit
     end
-
     File.open(@outfile, 'w') {|f| f.puts @output }
     cmd = "vim -S #{VIMSCRIPT} #{@outfile} "
     puts cmd
@@ -176,6 +176,16 @@ private
     else
       []
     end
+  end
+
+  def add_to_favorite_podcasts(podcast_id)
+    if File.size?(FAVORITE_PODCASTS_FILE) && 
+      File.read(FAVORITE_PODCASTS_FILE).split("\n").any? {|line| line.strip == podcast_id.to_s}
+      return
+    end
+    File.open(FAVORITE_PODCASTS_FILE, 'a') {|f|
+      f.puts podcast_id
+    }
   end
 
   def mark_already_downloaded
