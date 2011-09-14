@@ -31,7 +31,7 @@ function! s:main_window()
   noremap <buffer> <c-j> :call <SID>show_next_item(0)<CR> 
   noremap <buffer> <c-k> :call <SID>show_next_item(1)<CR> 
   noremap <buffer> f :call <SID>favorite_this_podcast()<CR> 
-  autocmd BufEnter <buffer> :setlocal nowrap
+  autocmd BufEnter <buffer> :setlocal nowrap | let s:listbufnr = bufnr('')
   noremap <buffer> <Leader>? :call <SID>help()<CR>
 endfunction
 
@@ -197,14 +197,7 @@ function! s:show_next_item(previous)
   if s:is_podcast_list()
     return
   end
-  let origbufnr = bufnr('%') 
-  let fullscreen = (bufwinnr(s:listbufnr) == -1) " we're in full screen message mode
-  if fullscreen
-    split
-    exec 'b'. s:listbufnr
-  else
-    call s:focus_window(s:listbufnr)
-  end
+  call s:focus_window(s:listbufnr)
   if a:previous
     normal k
   else
@@ -212,9 +205,6 @@ function! s:show_next_item(previous)
   endif
   call s:show_item()
   normal zz
-  if origbufnr == s:itembufnr 
-    wincmd p
-  endif
   normal 0 
   redraw
 endfunction
