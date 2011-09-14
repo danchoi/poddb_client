@@ -1,4 +1,5 @@
 require 'poddb_client/downloading'
+require 'poddb_client/version'
 require 'cgi'
 require 'optparse'
 require 'net/http'
@@ -24,6 +25,7 @@ class PoddbClient
     @args = args
     @options = {}
     @outfile = ITEM_LIST_OUTFILE # changed only for podcast list
+    @version = PoddbClient::VERSION
     parse_options
   end
 
@@ -66,7 +68,6 @@ class PoddbClient
         exit
       end
       opts.on_tail("-v", "--version", "Show version number") do
-        require 'poddb_client/version'
         puts "poddb #{VERSION}"
         exit
       end
@@ -123,9 +124,9 @@ class PoddbClient
   def list_podcasts
     @outfile = PODCAST_LIST_OUTFILE
     @output = if @list_podcasts
-                `curl -s #{SERVER}/podcasts?q=#{@query}`
+                `curl -s #{SERVER}/podcasts?v=#@version&q=#{@query}`
               elsif @list_favorite_podcasts 
-                `curl -s #{SERVER}/podcasts?podcast_ids=#{favorite_podcast_ids.join(',')}`
+                `curl -s #{SERVER}/podcasts?v=#@version&podcast_ids=#{favorite_podcast_ids.join(',')}`
               end
     if File.size?(FAVORITE_PODCASTS_FILE)
       @output = @output.split("\n").map {|line|
@@ -140,12 +141,12 @@ class PoddbClient
   end
 
   def items_from_favorites
-    @output = `curl -s '#{SERVER}/items?podcast_ids=#{favorite_podcast_ids.join(',')}#{@media_type_param}'`
+    @output = `curl -s '#{SERVER}/items?v=#@version&podcast_ids=#{favorite_podcast_ids.join(',')}#{@media_type_param}'`
     mark_already_downloaded
   end
 
   def search
-    @output = `curl -s '#{SERVER}/search?q=#{@query}#{@media_type_param}'`
+    @output = `curl -s '#{SERVER}/search?v=#@version&q=#{@query}#{@media_type_param}'`
     mark_already_downloaded
   end
 
