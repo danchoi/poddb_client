@@ -93,6 +93,7 @@ class PoddbClient
     cleanup
     if @add_podcast
       add_podcast
+      interactive
     elsif @list_podcasts || @list_favorite_podcasts 
       list_podcasts
       interactive
@@ -109,8 +110,7 @@ class PoddbClient
     puts "Adding podcast..."
     res = Net::HTTP.post_form(URI.parse("#{SERVER}/podcasts"),
                               'url' => @add_podcast)
-    # TODO improve response
-    puts res.body
+    @output = res.body
   end
 
   def interactive
@@ -118,7 +118,7 @@ class PoddbClient
       puts @output
       exit
     end
-    if @output =~ /^No matches/i
+    if @output =~ /^No matches/i || @output =~ /^Error/
       puts @output
       exit
     end
