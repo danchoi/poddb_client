@@ -6,8 +6,8 @@ require 'net/http'
 
 class PoddbClient
 
-  # TODO: change to poddb.com
-  SERVER = "http://localhost:3000"
+  # TODO: set for production
+  SERVER = ENV['PODDB_SERVER'] || "http://poddb.com"
 
   PODDB_DIR = "%s/.poddb" % ENV['HOME']
   CACHE_DIR = "%s/.poddb/cache" % ENV['HOME']
@@ -128,7 +128,7 @@ class PoddbClient
       exit
     end
     File.open(@outfile, 'w') {|f| f.puts @output }
-    cmd = "vim -S #{VIMSCRIPT} #{@outfile} "
+    cmd = "vim -S #{VIMSCRIPT} #{@outfile} PODDB_SERVER=#{SERVER}"
     puts cmd
     system(cmd)
     if download_and_play?

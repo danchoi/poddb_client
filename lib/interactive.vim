@@ -1,5 +1,10 @@
 let s:client_cmd = "ruby -Ilib bin/poddb"  
-let s:base_url = "http://localhost:3000"
+if !exists($PODDB_SERVER)
+  let g:poddb_base_url = $PODDB_SERVER
+else
+  let g:poddb_base_url = "http://poddb.com"
+endif
+
 
 let s:download_and_play_cmd = s:client_cmd." --download-and-play "
 
@@ -59,7 +64,7 @@ function! s:show_item()
   if (itemId == '')
     return
   endif
-  let command = "curl -s '".s:base_url."/item/".itemId."'"
+  let command = "curl -s '".g:poddb_base_url."/item/".itemId."'"
   let res = system(command)
   call s:focus_window(s:itembufnr)
   setlocal modifiable
@@ -121,7 +126,7 @@ function! s:show_podcast_items(podcastId)
   if (podcastId == '')
     return
   endif
-  let command = "curl -s '".s:base_url."/podcast/".podcastId."/items'"
+  let command = "curl -s '".g:poddb_base_url."/podcast/".podcastId."/items'"
   let contents = system(command)
   if contents =~ 'No matches\c'
     echom "No items!"
