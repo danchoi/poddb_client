@@ -31,7 +31,8 @@ function! s:main_window()
   noremap <buffer> <c-j> :call <SID>show_next_item(0)<CR> 
   noremap <buffer> <c-k> :call <SID>show_next_item(1)<CR> 
   noremap <buffer> f :call <SID>favorite_this_podcast()<CR> 
-  autocmd BufEnter <buffer> :setlocal nowrap | let s:listbufnr = bufnr('')
+  autocmd BufEnter <buffer> :setlocal nowrap | let s:listbufnr = bufnr('') 
+  autocmd BufWinEnter <buffer> :only
   noremap <buffer> <Leader>? :call <SID>help()<CR>
 endfunction
 
