@@ -10,7 +10,7 @@ class PoddbClient
     end
 
     def download(item_id)
-      puts "Downloading podcast item #{item}"
+      puts "Downloading podcast item #{item_id}"
       response = `curl -s #{SERVER}/item/#{item_id}/download`
       data = YAML::load(response)
       item = data[:item]
