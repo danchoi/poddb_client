@@ -148,7 +148,7 @@ class PoddbClient
     if File.size?(FAVORITE_PODCASTS_FILE)
       @output = @output.split("\n").map {|line|
         # podcast_ids here are strings
-        if (podcast_id = line[/\d+$/,0]) && favorite_podcast_ids.include?(podcast_id)
+        if (podcast_id = line[/\d+$/,0]) && favorite_podcast_ids.detect{|i| i.to_s == podcast_id}
           line.sub(/^ /, "@")
         else
           line
