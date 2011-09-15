@@ -13,7 +13,7 @@ class PoddbClient
   CACHE_DIR = "%s/.poddb/cache" % ENV['HOME']
   `mkdir -p #{CACHE_DIR}`
 
-  VIMSCRIPT = "lib/interactive.vim"
+  VIMSCRIPT = File.join(File.expand_path(File.dirname(__FILE__)), 'interactive.vim')
   ITEM_LIST_OUTFILE = "#{CACHE_DIR}/main.itemlist"
   PODCAST_LIST_OUTFILE = "#{CACHE_DIR}/main.podcastlist"
   FAVORITE_PODCASTS_FILE = "#{PODDB_DIR}/favorites"
