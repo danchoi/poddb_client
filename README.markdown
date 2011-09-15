@@ -73,8 +73,11 @@ The command line interface is as follows:
         -h, --help                       Show this message
         -v, --version                    Show version number
 
-After you submit a query, Poddb will either show you a list of podcasts, or a
-list of matching podcast epidoes.
+After you submit a query, Poddb will launch Vim to show you a list of podcasts
+or show you a list of podcast episodes. You can navigate this list with
+standard Vim motion commands. You can place the cursor over a podcast episode
+and press ENTER to view more information about it.
+
 
 
 
