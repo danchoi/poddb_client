@@ -108,13 +108,15 @@ key commands apply:
 If you mark items for downloading, Poddb will download them as soon as you quit
 the Vim interface with `:qa` or some similar command.
 
-If you press `D`, Poddb will quit the Vim interface immediate and begin 
-downloading the item under the cursor. After the download is complete, Poddb will
-start playing the item with `mplayer` or whatever command you specify using the
-`PODDB_MEDIA_PLAYER` environment variable.
+If you press `D`, Poddb will quit the Vim interface immediately and begin
+downloading the item that was under the cursor. After the download is complete,
+Poddb will start playing the item with `mplayer` or whatever command you
+specify using the `PODDB_MEDIA_PLAYER` environment variable.
 
 If you see a `D` on the left margin of an item in the item list, that means
 that you already downloaded that podcast item into the current directory.
+
+Poddb uses `wget` to download items.
 
 
 ## Bug reports and feature requests
