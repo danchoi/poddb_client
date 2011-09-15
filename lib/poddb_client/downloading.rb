@@ -45,6 +45,7 @@ class PoddbClient
     def download_and_play
       item_id = File.read(DOWNLOAD_AND_PLAY_FILE).strip
       abort("No item id found") if item_id !~ /\d/
+      puts "Downloading podcast item..."
       download item_id
       media_player_cmd = ENV['PODDB_MEDIA_PLAYER'] || 'mplayer'
       exec("#{media_player_cmd} #@filename")
