@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 require "poddb_client/version"
 
 Gem::Specification.new do |s|
-  s.name        = "poddb"
+  s.name        = "poddb_client"
   s.version     = PoddbClient::VERSION
   s.platform    = Gem::Platform::RUBY
   s.required_ruby_version = '>= 1.8.6'
@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.summary     = %q{Podcast aggregation from the command line}
   s.description = %q{Podcast aggregation from the command line}
 
-  s.rubyforge_project = "poddb"
+  s.rubyforge_project = "poddb_client"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
