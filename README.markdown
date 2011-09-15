@@ -4,7 +4,13 @@ Poddb lets you find, track, and download podcasts from the Unix command line and
 
 [screenshots]
 
-Benefites
+
+## Benefits
+
+* Search for podcasts from the command line
+* Lean Vim interface to navigate, favorite, and download podcasts
+* Handle podcasts directly as files; use any tool to play them
+
 
 ## Prerequisites
 
@@ -44,10 +50,9 @@ creates during execution. These files are created in a directory called `~/.podd
 
 ## Bug reports and feature requests
 
-Please submit these at either of these places:
+Please submit them here:
 
 * <https://github.com/danchoi/poddb_client/issues>
-* <http://groups.google.com/group/poddb-users>
 
 
 ## About the developer
