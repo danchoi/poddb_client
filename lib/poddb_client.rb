@@ -128,7 +128,7 @@ class PoddbClient
       exit
     end
     File.open(@outfile, 'w') {|f| f.puts @output }
-    cmd = "vim -S #{VIMSCRIPT} #{@outfile} PODDB_SERVER=#{SERVER}"
+    cmd = "export PODDB_SERVER=#{SERVER} && vim -S #{VIMSCRIPT} #{@outfile} "
     puts cmd
     system(cmd)
     if download_and_play?
