@@ -27,7 +27,7 @@ To install Ruby 1.9.2, I recommend using the [RVM Version Manager][rvm].
 Poddb assumes a Unix (POSIX) environment.
 
 
-## Installation
+## Install
 
     gem install poddb_client
 
@@ -46,6 +46,16 @@ If you ever want to uninstall Poddb from your system, just execute this command:
 
 and all traces of Poddb will removed, except the application-specific files it
 creates during execution. These files are created in a directory called `~/.poddb`.
+
+
+## How it works
+
+You invoke Poddb from command line interface and pass it flags and search
+terms. After you press ENTER, Poddb will send the query over the internet to
+the poddb server. The server will send back data, and poddb will launch Vim
+to let you navigate and interact with the results.
+
+
 
 
 ## Bug reports and feature requests
