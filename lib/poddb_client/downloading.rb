@@ -20,7 +20,7 @@ class PoddbClient
 
       filename_suffix = File.extname(URI.parse(enclosure_url).path)
 
-      @filename = "%s.%s.poddb_%s%s" % [podcast_fragment, title_fragment, item_id.to_s, filename_suffix]
+      @filename = "%s.%s.poddb_%d_%d%s" % [podcast_fragment, title_fragment, podcast[:podcast_id], item_id, filename_suffix]
       puts "Downloading #{enclosure_url} as #{@filename}"
       cmd = "wget -O #{@filename} '#{enclosure_url}' && touch #{@filename}"
       `#{cmd}`
