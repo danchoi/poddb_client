@@ -79,8 +79,36 @@ motion commands. You can place the cursor over a podcast episode and press
 `ENTER` to view more information about it. 
 
 
+## List of podcasts 
+
+To see all the podcasts in the poddb database, type `poddb -l`. Type `poddb -l
+QUERY` to see if any podcasts matching the QUERY string are in the database. If
+you don't see a favorite feed of yours in the list, you can add the feed to the
+Poddb database with this command:
+
+    poddb -a PODCAST_URL
+
+This command will also add the podcast to your favorites.
+
+When you're viewing a list of podcasts, you can add a podcast to your favorites
+by putting the cursor over it and pressing `f`. Press `f` again to remove the
+podcast from your favorite podcasts.  Your favorite podcasts are stored in
+`~/.poddb/favorites` as a simple list of podcast ids.
+
+Press `ENTER` on a podcast to see its items.
 
 
+## List of items 
+
+If you see a list of items (i.e. downloadable podcast episodes), the following
+key commands apply:
+
+* `l` or `ENTER` show item detail
+* `d` mark item for download
+* `D` start downloading item and play with mplayer or `PODDB_MEDIA_PLAYER` 
+* `p` show all items for this podcast 
+* `CTRL-j` show next item
+* `CTRL-k` show previous item
 
 
 
