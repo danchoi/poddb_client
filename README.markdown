@@ -74,7 +74,7 @@ The command line interface is as follows:
         -v, --version                    Show version number
 
 
-## List of podcasts 
+## Podcast list
 
 To see all the podcasts in the poddb database, type `poddb -l`. Type `poddb -l
 QUERY` to see if any podcasts matching the QUERY string are in the database. If
@@ -93,7 +93,7 @@ podcast from your favorite podcasts.  Your favorite podcasts are stored in
 Press `ENTER` on a podcast to see its items.
 
 
-## List of items 
+## Item list
 
 If you see a list of items (i.e. downloadable podcast episodes), the following
 key commands apply:
@@ -105,6 +105,16 @@ key commands apply:
 * `CTRL-j` show next item
 * `CTRL-k` show previous item
 
+If you mark items for downloading, Poddb will download them as soon as you quit
+the Vim interface with `:qa` or some similar command.
+
+If you press `D`, Poddb will quit the Vim interface immediate and begin 
+downloading the item under the cursor. After the download is complete, Poddb will
+start playing the item with `mplayer` or whatever command you specify using the
+`PODDB_MEDIA_PLAYER` environment variable.
+
+If you see a `D` on the left margin of an item in the item list, that means
+that you already downloaded that podcast item into the current directory.
 
 
 ## Bug reports and feature requests
