@@ -114,7 +114,7 @@ class PoddbClient
       puts res
     else
       podcast_id, title = res.split(/\s+/, 2)
-      add_to_favorite_podcasts(podcast_id)
+      add_to_favorite_podcasts(podcast_id, title)
     end
   end
 
@@ -182,11 +182,13 @@ private
     end
   end
 
-  def add_to_favorite_podcasts(podcast_id)
+  def add_to_favorite_podcasts(podcast_id, title)
     if File.size?(FAVORITE_PODCASTS_FILE) && File.read(FAVORITE_PODCASTS_FILE).split("\n").any? {|line| line.strip == podcast_id.to_s}
+      puts "'#{title}' [##{podcast_id}] is already in your favorite podcasts. Type `poddb -F` to show your favorites."
       return
     end
     if podcast_id !~ /\d/
+      puts "Error: No podcast detected for #{podcast_id}"
       return
     end
     podcast_id = podcast_id.to_i
