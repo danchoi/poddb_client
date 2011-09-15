@@ -48,14 +48,29 @@ and all traces of Poddb will removed, except the application-specific files it
 creates during execution. These files are created in a directory called `~/.poddb`.
 
 
-## How it works
+## How to use it
 
-You invoke Poddb from command line interface and pass it flags and search
-terms. After you press ENTER, Poddb will send the query over the internet to
-the poddb server. The server will send back data, and poddb will launch Vim
-to let you navigate and interact with the results.
+Invoke Poddb from command line interface, passing it flags and search terms.
+After you press ENTER, Poddb will send the query over the internet to the poddb
+server. The server will send back data, and poddb will launch Vim to let you
+navigate and interact with the results.
 
 
+    Usage: poddb [options] [query]
+
+        -f, --from-favorites             Show all recent items from favorite podcasts
+        -a, --add PODCAST_URL            Add podcast with PODCAST_URL to the poddb database
+        -l, --list [QUERY]               List all podcasts in the poddb database
+                                         (If QUERY is supplied, will return matching podcasts)
+        -F, --favorite-podcasts          Show favorite podcasts
+        -o, --order ORDER                Sort results by ORDER
+                                         The only option right now is 'popular'. Default order is pubdate.
+        -d, --days DAYS                  Limit results to items published since DAYS days ago
+        -t, --type MEDIA_TYPE            Return items of MEDIA_TYPE only (audio,video)
+            --download-and-play ITEM_ID  Download item and play with PODDB_MEDIA_PLAYER
+            --key-mappings               Show key mappings for Vim navigation interface
+        -h, --help                       Show this message
+        -v, --version                    Show version number
 
 
 ## Bug reports and feature requests
