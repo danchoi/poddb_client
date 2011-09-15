@@ -40,7 +40,7 @@ task :build_webpage do
   `cp README.markdown ../project-webpages/src/poddb_client.README.markdown`
   `cp coverage.markdown ../project-webpages/src/poddb_client.coverage.markdown`
   Dir.chdir "../project-webpages" do
-    puts `ruby gen.rb poddb_client #{ViTunes::VERSION}`
+    puts `ruby gen.rb poddb_client #{PoddbClient::VERSION}`
     `open out/poddb_client.html`
   end
 end
