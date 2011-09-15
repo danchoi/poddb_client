@@ -1,4 +1,4 @@
-let s:client_cmd = "ruby -Ilib bin/poddb"  
+let s:client_cmd = "poddb"
 if !exists($PODDB_SERVER)
   let g:poddb_base_url = $PODDB_SERVER
 else
