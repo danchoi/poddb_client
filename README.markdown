@@ -50,7 +50,7 @@ creates during execution. These files are created in a directory called `~/.podd
 
 ## How to use it
 
-Invoke Poddb from command line interface, passing it flags and search terms.
+Invoke `poddb` from command line interface, passing it flags and search terms.
 After you press ENTER, Poddb will send the query over the internet to the poddb
 server. The server will send back data, and poddb will launch Vim to let you
 navigate and interact with the results.
@@ -73,10 +73,12 @@ The command line interface is as follows:
         -h, --help                       Show this message
         -v, --version                    Show version number
 
-After you submit a query, Poddb will launch Vim to show you a list of podcasts
-or show you a list of podcast episodes. You can navigate this list with
-standard Vim motion commands. You can place the cursor over a podcast episode
-and press ENTER to view more information about it.
+After you submit a query, Poddb will launch Vim to show you a list of matching
+podcasts or podcast episodes. You can navigate this list with standard Vim
+motion commands. You can place the cursor over a podcast episode and press
+`ENTER` to view more information about it. 
+
+
 
 
 
