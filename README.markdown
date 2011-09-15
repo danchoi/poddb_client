@@ -55,6 +55,7 @@ After you press ENTER, Poddb will send the query over the internet to the poddb
 server. The server will send back data, and poddb will launch Vim to let you
 navigate and interact with the results.
 
+The command line interface is as follows:
 
     Usage: poddb [options] [query]
 
@@ -71,6 +72,11 @@ navigate and interact with the results.
             --key-mappings               Show key mappings for Vim navigation interface
         -h, --help                       Show this message
         -v, --version                    Show version number
+
+After you submit a query, Poddb will either show you a list of podcasts, or a
+list of matching podcast epidoes.
+
+
 
 
 ## Bug reports and feature requests
