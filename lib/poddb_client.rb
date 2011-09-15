@@ -197,7 +197,7 @@ private
   end
 
   def mark_already_downloaded
-    @downloaded_item_ids = Dir['*poddb*'].map { |f| f[/poddb(\d+)/,1] }.compact
+    @downloaded_item_ids = Dir['*poddb_*'].map { |f| f[/poddb_\d+_(\d+)/,1] }.compact
     @output = @output.split(/\n/).map {|line| 
       item_id = line[/\d+$/,0] 
       if @downloaded_item_ids.include?(item_id)
