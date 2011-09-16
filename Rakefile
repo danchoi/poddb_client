@@ -39,6 +39,7 @@ desc "build webpage"
 task :build_webpage do
   `cp README.markdown ../project-webpages/src/poddb_client.README.markdown`
   `cp coverage.markdown ../project-webpages/src/poddb_client.coverage.markdown`
+  `cp links.markdown ../project-webpages/src/poddb_client.links.markdown`
   Dir.chdir "../project-webpages" do
     puts `ruby gen.rb poddb_client #{PoddbClient::VERSION}`
     `open out/poddb_client.html`
