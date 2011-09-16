@@ -104,8 +104,8 @@ podcast episodes** below for instruction on how to view and download episodes.
 
 ## Add podcasts to the database
 
-If you don't see a favorite feed of yours in the list returned by `poddb -l`,
-you can add the feed to the Poddb database with this command:
+If you don't see a favorite podcast of yours in the list returned by `poddb -l`,
+you can add the podcast to the Poddb database with this command:
 
     poddb -a PODCAST_URL
 
