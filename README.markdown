@@ -1,6 +1,6 @@
 # poddb
 
-_Podcatching for nerds, minimalists, and unix fanatics_.
+_Podcatching for nerds, Zen minimalists, and unix fanatics_.
 
 Poddb lets you find, track, and download podcasts from the Unix command line
 and Vim.
@@ -25,6 +25,9 @@ Poddb assumes a Unix (POSIX) environment.
 
 ## Install
 
+Poddb can be installed as a Ruby gem. Please note that while the tool is called
+**poddb**, the gem is called **poddb_client**.
+
     gem install poddb_client
 
 Test your installation by typing `poddb -h`. You should see poddb's help.
@@ -32,13 +35,13 @@ Test your installation by typing `poddb -h`. You should see poddb's help.
 On some systems you may run into a PATH issue, where the system can't find the
 `poddb` command after installation. You might want to try 
 
-    sudo gem install poddb
+    sudo gem install poddb_client
 
 to see if that puts `poddb` on your PATH.
 
 If you ever want to uninstall Poddb from your system, just execute this command:
 
-    gem uninstall poddb
+    gem uninstall poddb_client
 
 This will remove all traces of Poddb, except for the application-specific files
 it creates in a directory called `~/.poddb`. These you'll have to remove
@@ -230,10 +233,12 @@ Please submit them here:
 ## About the app
 
 Poddb has two parts, a client and a server. The client is a hybrid
-Ruby/VimScript program packaged as a Ruby gem. The server is a Ruby Sinatra app
-sitting in front of a [PostgreSQL][postgres] database. Podcast feeds are
-fetched with the [curb][curb] and parsed with [nokogiri][nokogiri].
+Ruby/VimScript program packaged as a Ruby gem. The server is a Ruby
+[Sinatra][sinatra] app sitting in front of a [PostgreSQL][postgres] database.
+Podcast feeds are fetched with [curb][curb] and parsed with
+[nokogiri][nokogiri].
 
+[sinatra]:http://www.sinatrarb.com/
 [postgres]:http://www.google.com/search?aq=f&sourceid=chrome&ie=UTF-8&q=postgresql
 [curb]:http://curb.rubyforge.org/
 [nokogiri]:http://nokogiri.org/
