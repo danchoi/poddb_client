@@ -123,6 +123,20 @@ to your favorites by putting the cursor over it and pressing `f`. Press `f`
 again to remove the podcast from your favorite podcasts.  Favorite podcasts
 have a `@` sign in the left margin.
 
+    @ NPR Programs: Fresh Air from WHYY                            |     16 |      0 |  Sep 15 2011 | 
+      NPR Programs: Talk of the Nation                             |     41 |      0 |  Sep 15 2011 | 
+    @ NPR Programs: Tell Me More Podcast                           |     20 |      0 |  Sep 15 2011 |
+      NPR Programs: Wait Wait... Don't Tell Me! Podcast            |     10 |      0 |  Sep 10 2011 | 
+      NPR Series: Alt.Latino Podcast                               |     21 |      0 |  Sep 14 2011 | 
+      NPR Series: From Scratch                                     |     16 |      0 |  Sep 14 2011 | 
+      NPR Series: Talk of the Nation Opinion Page Podcast          |     10 |      0 |  Sep 05 2011 |
+      NPR Series: World Cafe: Next from WXPN Podcast               |     10 |      0 |  Sep 12 2011 | 
+      NPR Topics: Business Story of the Day Podcast                |     21 |      0 |  Sep 16 2011 | 
+      NPR Topics: Economy Podcast                                  |     11 |      0 |  Sep 13 2011 |
+      NPR Topics: Education Podcast                                |     12 |      0 |  Sep 15 2011 | 
+      NPR Topics: Environment Podcast                              |     11 |      0 |  Sep 15 2011 | 
+    @ NPR Topics: Food Podcast                                     |     11 |      0 |  Sep 15 2011 | 
+
 Once you have a few favorite podcasts, you can list and navigate them with
 the command
 
@@ -147,6 +161,14 @@ A basic search like
     poddb music oud
 
 will return all podcast episodes that match the query words "music" and "oud."
+
+    pubdate      | match | dwnlds | title                                              | podcast             
+    -------------+-------+--------+----------------------------------------------------+--------------------
+    Sep 01 2011  |  0.99 |      1 | Journeys with the Oud                              | PRI: Afropop Worldw
+    Aug 05 2011  |  8.74 |        | Mystics and the Mediterranean (Podcast Edition)    | The latest articles
+    Jun 29 2011  |  1.01 |        | Worldview 6.29.11                                  | Worldview Podcast  
+    Oct 15 2010  |  0.97 |        | Unusual Collaborations (Weekly Podcast)            | The latest articles
+
 
 You can also limit the scope of the search by media type:
 
