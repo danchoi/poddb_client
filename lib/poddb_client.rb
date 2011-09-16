@@ -70,12 +70,15 @@ class PoddbClient
       opts.on("--download-and-play ITEM_ID", "Download item and play with PODDB_MEDIA_PLAYER") do |item_id|
         puts "Download and play #{item_id}"
       end
-      opts.on("--key-mappings", "Show key mappings for Vim navigation interface") do
-        puts "KEYMAPPINGS"
+      opts.on("--readme", "Show README") do
+        readme_file = File.expand_path("../../README.markdown", __FILE__)
+        system("less #{readme_file}")
         exit
       end
       opts.on_tail("-h", "--help", "Show this message") do
         puts opts
+        puts 
+        puts "For more detailed help, use `poddb --readme` or visit http://danielchoi.com/software/poddb.html"
         exit
       end
       opts.on_tail("-v", "--version", "Show version number") do

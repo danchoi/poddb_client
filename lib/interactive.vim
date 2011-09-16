@@ -221,7 +221,7 @@ endfunction
 
 function! s:help()
   " This just displays the README
-  let res = system(s:client_cmd." --key-mappings")
+  let res = system(s:client_cmd." --readme")
   echo res  
 endfunction
 
