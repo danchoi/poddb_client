@@ -10,12 +10,12 @@ and Vim.
 
 ## Why
 
-I wanted a fast and easy way to search for and download podcasts in any Unix
-environment, without resorting to a GUI application or web browser.  I also
-wanted to start crowdsourcing and publishing podcast download statistics to
-make it easier to spot popular podcasts and podcast episodes. Finally, I wanted
-a more streamlined way to search for NPR podcasts than through the NPR website
-or iTunes. Poddb serves these three goals.
+I wanted a fast and lightweight way to search for and download podcasts in any
+Unix environment, without resorting to a GUI application or web browser.  I
+also wanted to start crowdsourcing and publishing podcast download statistics
+to make it easier to spot popular podcasts and podcast episodes. Finally, I
+wanted a more streamlined way to search for NPR podcasts than through the NPR
+website or iTunes. Poddb serves these three goals.
 
 
 ## Prerequisites
