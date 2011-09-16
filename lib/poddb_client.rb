@@ -6,7 +6,13 @@ require 'net/http'
 
 class PoddbClient
 
-  # TODO: set for production
+  # checks
+  %w( curl wget ).each do |x|
+    if `which #{x}` == ''
+      abort("Missing `#{x}`. Please install it before you start poddb.")
+    end
+  end
+
   SERVER = ENV['PODDB_SERVER'] || "http://poddb.com"
 
   PODDB_DIR = "%s/.poddb" % ENV['HOME']
