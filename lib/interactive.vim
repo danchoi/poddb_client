@@ -33,9 +33,9 @@ function! s:main_window()
   noremap <buffer> d :call <SID>mark_for_download()<cr>
   noremap <buffer> D :call <SID>download_and_play()<cr>
   noremap <buffer> p :call <SID>show_podcast_items('')<cr>
-  noremap <buffer> <c-j> :call <SID>show_next_item(0)<CR> 
-  noremap <buffer> <c-k> :call <SID>show_next_item(1)<CR> 
-  noremap <buffer> f :call <SID>favorite_this_podcast()<CR> 
+  noremap <buffer> <c-j> :call <SID>show_next_item(0)<CR>
+  noremap <buffer> <c-k> :call <SID>show_next_item(1)<CR>
+  noremap <buffer> f :call <SID>favorite_this_podcast()<CR>
   autocmd BufEnter <buffer> :setlocal nowrap | let s:listbufnr = bufnr('') 
   autocmd BufWinEnter <buffer> :only
   noremap <buffer> <Leader>? :call <SID>help()<CR>
@@ -45,8 +45,8 @@ function! s:item_window()
   rightbelow split poddb-item-window
   let s:itembufnr = bufnr('%')
   setlocal buftype=nofile
-  noremap <buffer> <c-j> :call <SID>show_next_item(0)<CR> 
-  noremap <buffer> <c-k> :call <SID>show_next_item(1)<CR> 
+  noremap <buffer> <c-j> :call <SID>show_next_item(0)<CR>
+  noremap <buffer> <c-k> :call <SID>show_next_item(1)<CR>
   noremap <buffer> d :call <SID>mark_for_download()<cr>
   nnoremap <buffer> o :call <SID>find_next_href_and_open()<CR>
   nnoremap <buffer> O :call <SID>open_all_hrefs()<CR>
