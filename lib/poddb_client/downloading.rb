@@ -6,7 +6,7 @@ class PoddbClient
 
 
     def titleize(s, maxlength=20) 
-      s.gsub(/\W+/, '-')[0,maxlength].sub(/-$/, '')
+      s.gsub(/\W+/, '-')[0,maxlength].sub(/-$/, '').sub(/^-/, '')
     end
 
     def download(item_id)
