@@ -146,6 +146,10 @@ downloads.
 
 You can use `-t audio` to limit search results to audio downloads.
 
+Note that the (video|audio) options don't always filter correctly because some
+feeds give videos the media type 'audio/mpeg'. These videos won't show up in
+the current version of Poddb if you use the `-t video` flag.
+
 Two other command flags that are useful are `-o` and `-d`. `-d n` lets you
 limit the scope of the search to episodes published in the last _n_ days. So
 
