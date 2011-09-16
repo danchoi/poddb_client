@@ -52,8 +52,8 @@ or video files you can play them entirely offline.) The server will send back
 data, and poddb will launch Vim to let you navigate and interact with the query
 results.
 
-Here is a synopsis of the command line interface. A more detailed guide
-follows.
+Here is a partial synopsis of the command line interface. A more detailed guide
+to using Poddb follows.
 
     Usage: poddb [options] [query]
 
@@ -66,10 +66,6 @@ follows.
                                          The only option right now is 'popular'. Default order is pubdate.
         -d, --days DAYS                  Limit results to items published since DAYS days ago
         -t, --type MEDIA_TYPE            Return items of MEDIA_TYPE only (audio,video)
-            --download-and-play ITEM_ID  Download item and play with PODDB_MEDIA_PLAYER
-        -h, --help                       Show this message
-        -v, --version                    Show version number
-
 
 ## Browse and search podcasts
 
