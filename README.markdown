@@ -47,6 +47,8 @@ This will remove all traces of Poddb, except for the application-specific files
 it creates in a directory called `~/.poddb`. These you'll have to remove
 manually.
 
+To update Poddb to the latest version, just run `gem install poddb_client`
+again.
 
 ## How to use it
 
