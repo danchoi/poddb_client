@@ -2,7 +2,7 @@
 
 _Podcatching for nerds, Zen minimalists, and unix fanatics_.
 
-Poddb lets you find, track, and download podcasts from the Unix command line
+Poddb lets you browse, search, and download podcasts from the Unix command line
 and Vim.
 
 [screenshots]
