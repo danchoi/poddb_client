@@ -1,6 +1,6 @@
 # poddb
 
-_Podcatching for nerds, Zen minimalists, and unix fanatics_.
+_Podcatching for nerds, Zen minimalists, and Unix fanatics_.
 
 Poddb lets you browse, search, and download podcasts from the Unix command line
 and Vim.
