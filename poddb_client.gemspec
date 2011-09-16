@@ -21,8 +21,5 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  message = "** Now please run poddb_client-install to install the Vim plugin **"
-  divider = "*" * message.length 
-  s.post_install_message = [divider, message, divider].join("\n")
 end
 

@@ -200,9 +200,9 @@ filenames that follow the format,
 
 Examples:
 
-    The-Loh-Life.Wisconsin-Wasp-Nest-part-2.poddb42329.mp3
     Philosophy-Bites.Michael-Sandel-on-Justice.poddb_711_56523.mp3
     NPR-Tiny-Desk-Concerts-Podcast.Diego-Garcia.poddb_312_48461.m4v
+    APM-Marketplace.09-14-11-Marketplace.poddb_16_55726.mp3
 
 If you press `D`, Poddb will quit the Vim interface immediately and begin
 downloading the episode that was under the cursor. After the download is complete,
