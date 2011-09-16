@@ -1,5 +1,7 @@
 # poddb
 
+_Podcatching for nerds, minimalists, and unix fanatics_.
+
 Poddb lets you find, track, and download podcasts from the Unix command line
 and Vim.
 
@@ -133,11 +135,11 @@ will return all podcast episodes that match the query words "music" and "oud."
 
 You can also limit the scope of the search by media type:
 
-    poddb -t video food recipe
+    poddb -t video ruby
 
-will return all podcast episodes that match the words "food" and "recipe" 
-that are video downloads. You can specific "audio" instead of video, to limit
-search results to audio downloads.
+will return all podcast episodes that match the words "food" and "recipe" that
+are video downloads. You can use `-t audio` to limit search results to audio
+downloads.
 
 Two other command flags that are useful are `-o` and `-d`. `-d n` lets you
 limit the scope of the search to episodes published in the last _n_ days. So
@@ -153,6 +155,13 @@ flag. So
     poddb -d 30 -o popular tiny desk concert
 
 will show the most popular Tiny Desk Concert episodes in the last month
+
+Invoking Poddb with no query words will show you all the most recent 
+episodes from all the podcasts in the Poddb database. So to see the most
+popular downloads in the last week, you can use
+
+    poddb -d 7 -o popular
+
 
 
 ## Navigate and download podcast episodes
@@ -184,7 +193,7 @@ marked episodes serially. A future version may implement parallel downloading.
 Poddb downloads episodes into the current directory and saves them with
 filenames that follow the format,
 
-    {title of podcast}.{title of episode}.{poddb internal identifier}.{filetype suffix}
+    {title of podcast}.{title of episode}.{poddb internal identifier}.{filetype extension}
 
 Examples:
 
@@ -203,11 +212,12 @@ environment variable and exporting it. For example, to make Poddb use `totem`:
     export PODDB_MEDIA_PLAYER=totem
     poddb 
 
+Put the `export` command in your `.bash_profile` if you don't want to keep
+typing it.
 
-
-When you're looking at an episode list, if you see a `D` on the left margin of an
-episode, that means that you've already downloaded that podcast episode into the
-current directory.
+If you see a `D` on the left margin of an episode while you're looking at a
+list of episodes, that means that you've already downloaded that episode into
+the current directory.
 
 
 ## Bug reports and feature requests
@@ -215,6 +225,18 @@ current directory.
 Please submit them here:
 
 * <https://github.com/danchoi/poddb_client/issues>
+
+
+## About the app
+
+Poddb has two parts, a client and a server. The client is a hybrid
+Ruby/VimScript program packaged as a Ruby gem. The server is a Ruby Sinatra app
+sitting in front of a [PostgreSQL][postgres] database. Podcast feeds are
+fetched with the [curb][curb] and parsed with [nokogiri][nokogiri].
+
+[postgres]:http://www.google.com/search?aq=f&sourceid=chrome&ie=UTF-8&q=postgresql
+[curb]:http://curb.rubyforge.org/
+[nokogiri]:http://nokogiri.org/
 
 
 ## About the developer
