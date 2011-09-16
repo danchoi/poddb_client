@@ -8,6 +8,20 @@ and Vim.
 [screenshots]
 
 
+## Why
+
+I wanted a fast and easy way to search for and download podcasts in any Unix
+environment, without resorting to a GUI application or web browser.  I also
+wanted to start crowdsourcing and publishing podcast download statistics to
+make it easier to spot popular podcasts and podcast episodes. 
+
+I also like using a cheap Linux netbook in the kitchen to play NPR podcasts
+while I cook.  Because its screen is small, it's painful to use a web browser
+or GUI application to search for and select podcasts.  A podcatcher that works
+from the Unix command line and Vim and entirely through keystrokes is ideal for
+this kind of setup.
+
+
 ## Prerequisites
 
 * Vim (7.2 or later)
