@@ -116,39 +116,6 @@ E.g.,
 The `-a` command will also add the podcast to your favorites.
 
 
-## Favorite podcasts
-
-When viewing a list of podcasts returned by `poddb -l`, you can add a podcast
-to your favorites by putting the cursor over it and pressing `f`. Press `f`
-again to remove the podcast from your favorite podcasts.  Favorite podcasts
-have a `@` sign in the left margin.
-
-    @ NPR Programs: Fresh Air from WHYY                            |     16 |      0 |  Sep 15 2011 | 
-      NPR Programs: Talk of the Nation                             |     41 |      0 |  Sep 15 2011 | 
-    @ NPR Programs: Tell Me More Podcast                           |     20 |      0 |  Sep 15 2011 |
-      NPR Programs: Wait Wait... Don't Tell Me! Podcast            |     10 |      0 |  Sep 10 2011 | 
-      NPR Series: Alt.Latino Podcast                               |     21 |      0 |  Sep 14 2011 | 
-      NPR Series: From Scratch                                     |     16 |      0 |  Sep 14 2011 | 
-      NPR Series: Talk of the Nation Opinion Page Podcast          |     10 |      0 |  Sep 05 2011 |
-      NPR Series: World Cafe: Next from WXPN Podcast               |     10 |      0 |  Sep 12 2011 | 
-      NPR Topics: Business Story of the Day Podcast                |     21 |      0 |  Sep 16 2011 | 
-      NPR Topics: Economy Podcast                                  |     11 |      0 |  Sep 13 2011 |
-      NPR Topics: Education Podcast                                |     12 |      0 |  Sep 15 2011 | 
-      NPR Topics: Environment Podcast                              |     11 |      0 |  Sep 15 2011 | 
-    @ NPR Topics: Food Podcast                                     |     11 |      0 |  Sep 15 2011 | 
-
-Once you have a few favorite podcasts, you can list and navigate them with
-the command
-
-    poddb -F
-
-You can also aggregate all the most recent episodes from your favorite episodes by
-launching Poddb with the command
-
-    poddb -f
-
-Your favorite podcasts are stored in `~/.poddb/favorites` as a simple list of
-podcast ids. The ids are internal to Poddb's PostgreSQL database.
 
 ## Search for podcast episodes 
 
@@ -257,6 +224,40 @@ If you see a `D` on the left margin of an episode while you're looking at a
 list of episodes, that means that you've already downloaded that episode into
 the current directory.
 
+
+## Favorite podcasts
+
+When viewing a list of podcasts returned by `poddb -l`, you can add a podcast
+to your favorites by putting the cursor over it and pressing `f`. Press `f`
+again to remove the podcast from your favorite podcasts.  Favorite podcasts
+have a `@` sign in the left margin.
+
+    @ NPR Programs: Fresh Air from WHYY                            |     16 |      0 |  Sep 15 2011 | 
+      NPR Programs: Talk of the Nation                             |     41 |      0 |  Sep 15 2011 | 
+    @ NPR Programs: Tell Me More Podcast                           |     20 |      0 |  Sep 15 2011 |
+      NPR Programs: Wait Wait... Don't Tell Me! Podcast            |     10 |      0 |  Sep 10 2011 | 
+      NPR Series: Alt.Latino Podcast                               |     21 |      0 |  Sep 14 2011 | 
+      NPR Series: From Scratch                                     |     16 |      0 |  Sep 14 2011 | 
+      NPR Series: Talk of the Nation Opinion Page Podcast          |     10 |      0 |  Sep 05 2011 |
+      NPR Series: World Cafe: Next from WXPN Podcast               |     10 |      0 |  Sep 12 2011 | 
+      NPR Topics: Business Story of the Day Podcast                |     21 |      0 |  Sep 16 2011 | 
+      NPR Topics: Economy Podcast                                  |     11 |      0 |  Sep 13 2011 |
+      NPR Topics: Education Podcast                                |     12 |      0 |  Sep 15 2011 | 
+      NPR Topics: Environment Podcast                              |     11 |      0 |  Sep 15 2011 | 
+    @ NPR Topics: Food Podcast                                     |     11 |      0 |  Sep 15 2011 | 
+
+Once you have a few favorite podcasts, you can list and navigate them with
+the command
+
+    poddb -F
+
+You can also aggregate all the most recent episodes from your favorite episodes by
+launching Poddb with the command
+
+    poddb -f
+
+Your favorite podcasts are stored in `~/.poddb/favorites` as a simple list of
+podcast ids. The ids are internal to Poddb's PostgreSQL database.
 
 ## Bug reports and feature requests
 
