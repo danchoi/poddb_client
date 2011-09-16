@@ -57,17 +57,17 @@ to using Poddb follows.
 
     Usage: poddb [options] [query]
 
-        -f, --from-favorites             Show all recent items from favorite podcasts
+        -f, --from-favorites             Show all recent episodes from favorite podcasts
         -a, --add PODCAST_URL            Add podcast with PODCAST_URL to the poddb database
         -l, --list [QUERY]               List all podcasts in the poddb database
                                          (If QUERY is supplied, will return matching podcasts)
         -F, --favorite-podcasts          Show favorite podcasts
         -o, --order ORDER                Sort results by ORDER
                                          The only option right now is 'popular'. Default order is pubdate.
-        -d, --days DAYS                  Limit results to items published since DAYS days ago
-        -t, --type MEDIA_TYPE            Return items of MEDIA_TYPE only (audio,video)
+        -d, --days DAYS                  Limit results to episodes published since DAYS days ago
+        -t, --type MEDIA_TYPE            Return episodes of MEDIA_TYPE only (audio,video)
 
-## Browse and search podcasts
+## Browse and search for podcasts
 
 To see all the podcasts in the poddb database:
 
@@ -81,8 +81,8 @@ the database. E.g.
 will return all the podcasts in the Poddb database with the word "music" in the
 title or podcast description.
 
-Press `ENTER` on a podcast to see its items (i.e. episodes).  See **Podcast
-items** below for instruction on how to view and download items.
+Press `ENTER` on a podcast to see its episodes.  See **Navigate and download
+podcast episodes** below for instruction on how to view and download episodes.
 
 
 ## Add podcasts to the database
@@ -111,7 +111,7 @@ the command
 
     poddb -F
 
-You can also aggregate all the most recent items from your favorite items by
+You can also aggregate all the most recent episodes from your favorite episodes by
 launching Poddb with the command
 
     poddb -f
@@ -119,39 +119,74 @@ launching Poddb with the command
 Your favorite podcasts are stored in `~/.poddb/favorites` as a simple list of
 podcast ids. The ids are internal to Poddb's PostgreSQL database.
 
+## Search for podcast episodes 
 
-## Podcast items
+With Poddb, you search for podcast episodes from the command line. If there are
+matches, Poddb will launch the Vim navigation interface. If not, you'll just
+see a message saying no matches were found.
 
-When you see a list of items (i.e. podcast episodes), you can use the following
-key commands, in addition to Vim's standard cursor commands:
+A basic search like 
 
-* `l` or `ENTER` show item detail
-* `d` mark item for download
-* `D` start downloading item and play with mplayer or `PODDB_MEDIA_PLAYER` 
-* `p` show all items for this podcast 
-* `CTRL-j` show next item
-* `CTRL-k` show previous item
+    poddb music oud
 
-If you press `p` to show all the items for the podcast, you can navigate back to the
+will return all podcast episodes that match the query words "music" and "oud."
+
+You can also limit the scope of the search by media type:
+
+    poddb -t video food recipe
+
+will return all podcast episodes that match the words "food" and "recipe" 
+that are video downloads. You can specific "audio" instead of video, to limit
+search results to audio downloads.
+
+Two other command flags that are useful are `-o` and `-d`. `-d n` lets you
+limit the scope of the search to episodes published in the last n days. So
+
+    poddb -d 7 libya 
+
+will return all podcast episodes that match the query "libya" published over
+the last week.
+
+To sort the search results by most popular episodes first, use the `-o popular`
+flag. So
+
+    poddb -d 30 -o popular tiny desk concert
+
+will show the most popular Tiny Desk Concert episodes in the last month
+
+
+## Navigate and download podcast episodes
+
+When you see a list of episodes, you can use the following key commands, in
+addition to Vim's standard cursor commands:
+
+* `l` or `ENTER` show episode detail
+* `d` mark episode for download
+* `D` start downloading episode and play with mplayer or `PODDB_MEDIA_PLAYER` 
+* `p` show all episodes for this podcast 
+* `CTRL-j` show next episode
+* `CTRL-k` show previous episode
+
+If you press `p` to show all the episodes for the podcast, you can navigate back to the
 previous screen with `CTRL-o` and return forward again with `CTRL-i`. In other words, 
 feel free to use Vim's jump-list navigation commands. 
 
-When you press `l` or `ENTER`, more information about the item will appear in a split
+When you press `l` or `ENTER`, more information about the episode will appear in a split
 window below the list.
 
-If you mark items for downloading, Poddb will download them as soon as you quit
+If you mark episodes for downloading, Poddb will download them as soon as you quit
 the Vim interface with `:qa` or some similar command.
 
 If you press `D`, Poddb will quit the Vim interface immediately and begin
-downloading the item that was under the cursor. After the download is complete,
-Poddb will automatically start playing the item with `mplayer` or whatever
+downloading the episode that was under the cursor. After the download is complete,
+Poddb will automatically start playing the episode with `mplayer` or whatever
 command you specify using the `PODDB_MEDIA_PLAYER` environment variable.
 
-When you're looking at an item list, if you see a `D` on the left margin of an
-item, that means that you've already downloaded that podcast item into the
+When you're looking at an episode list, if you see a `D` on the left margin of an
+episode, that means that you've already downloaded that podcast episode into the
 current directory.
 
-Poddb uses `wget` to download items.
+Poddb uses `wget` to download episodes.
 
 
 ## Bug reports and feature requests
