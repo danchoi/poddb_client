@@ -174,9 +174,10 @@ You can also limit the scope of the search by media type:
 
     poddb -t video ruby
 
-will return all podcast episodes that match the words "food" and "recipe" that
-are video downloads. You can use `-t audio` to limit search results to audio
-downloads.
+will return all podcast episodes that match the word "ruby" that are video
+downloads. 
+
+You can use `-t audio` to limit search results to audio downloads.
 
 Two other command flags that are useful are `-o` and `-d`. `-d n` lets you
 limit the scope of the search to episodes published in the last _n_ days. So
