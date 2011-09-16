@@ -13,14 +13,9 @@ and Vim.
 I wanted a fast and easy way to search for and download podcasts in any Unix
 environment, without resorting to a GUI application or web browser.  I also
 wanted to start crowdsourcing and publishing podcast download statistics to
-make it easier to spot popular podcasts and podcast episodes. Poddb
-serves these two goals.
-
-I also like using a cheap Linux netbook in the kitchen to play NPR podcasts
-while I cook.  Because its screen is small, it's painful to use a web browser
-or GUI application to search for and select podcasts.  A podcatcher that works
-from the Unix command line and Vim and entirely through keystrokes is ideal for
-this kind of setup.
+make it easier to spot popular podcasts and podcast episodes. Finally, I wanted
+a more streamlined way to search for NPR podcasts than through the NPR website
+or iTunes. Poddb serves these three goals.
 
 
 ## Prerequisites
