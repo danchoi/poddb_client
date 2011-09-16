@@ -84,7 +84,9 @@ class PoddbClient
       opts.on_tail("-h", "--help", "Show this message") do
         puts opts
         puts 
-        puts "For more detailed help, use `poddb --readme` or visit http://danielchoi.com/software/poddb.html"
+        puts "For more detailed help, type `poddb --readme` or visit http://danielchoi.com/software/poddb_client.html"
+        puts "Copyright 2011 Daniel Choi <dhchoi@gmail.com> MIT License"
+
         exit
       end
       opts.on_tail("-v", "--version", "Show version number") do
