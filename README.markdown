@@ -208,7 +208,7 @@ When you see a list of episodes, you can use the following key commands, in
 addition to Vim's standard cursor commands:
 
 * `l` or `ENTER` show episode detail
-* `d` mark episode for download
+* `d` mark episode for download; works with Vim selection ranges too
 * `D` start downloading episode immediately and play with `mplayer` or `PODDB_MEDIA_PLAYER` 
 * `p` show all episodes for this podcast 
 * `CTRL-j` show next episode
