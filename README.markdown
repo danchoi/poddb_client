@@ -140,7 +140,7 @@ that are video downloads. You can specific "audio" instead of video, to limit
 search results to audio downloads.
 
 Two other command flags that are useful are `-o` and `-d`. `-d n` lets you
-limit the scope of the search to episodes published in the last n days. So
+limit the scope of the search to episodes published in the last _n_ days. So
 
     poddb -d 7 libya 
 
@@ -162,7 +162,7 @@ addition to Vim's standard cursor commands:
 
 * `l` or `ENTER` show episode detail
 * `d` mark episode for download
-* `D` start downloading episode and play with mplayer or `PODDB_MEDIA_PLAYER` 
+* `D` start downloading episode immediately and play with `mplayer` or `PODDB_MEDIA_PLAYER` 
 * `p` show all episodes for this podcast 
 * `CTRL-j` show next episode
 * `CTRL-k` show previous episode
@@ -174,19 +174,40 @@ feel free to use Vim's jump-list navigation commands.
 When you press `l` or `ENTER`, more information about the episode will appear in a split
 window below the list.
 
-If you mark episodes for downloading, Poddb will download them as soon as you quit
-the Vim interface with `:qa` or some similar command.
+If you mark episodes for downloading, Poddb will place a `*` in their left
+margin and download them as soon as you quit the Vim interface with `:qa` or
+some similar command.
+
+Poddb uses `wget` to download episodes. The current version downloads all
+marked episodes serially. A future version may implement parallel downloading.
+
+Poddb downloads episodes into the current directory and saves them with
+filenames that follow the format,
+
+    {title of podcast}.{title of episode}.{poddb internal identifier}.{filetype suffix}
+
+Examples:
+
+    The-Loh-Life.Wisconsin-Wasp-Nest-part-2.poddb42329.mp3
+    Philosophy-Bites.Michael-Sandel-on-Justice.poddb_711_56523.mp3
+    NPR-Tiny-Desk-Concerts-Podcast.Diego-Garcia.poddb_312_48461.m4v
 
 If you press `D`, Poddb will quit the Vim interface immediately and begin
 downloading the episode that was under the cursor. After the download is complete,
-Poddb will automatically start playing the episode with `mplayer` or whatever
-command you specify using the `PODDB_MEDIA_PLAYER` environment variable.
+Poddb will automatically start playing the episode with `mplayer`.
+
+If you don't want to use `mplayer` or don't have it installed. You can make
+Poddb launch a different media player by setting the `PODDB_MEDIA_PLAYER`
+environment variable and exporting it. For example, to make Poddb use `totem`: 
+
+    export PODDB_MEDIA_PLAYER=totem
+    poddb 
+
+
 
 When you're looking at an episode list, if you see a `D` on the left margin of an
 episode, that means that you've already downloaded that podcast episode into the
 current directory.
-
-Poddb uses `wget` to download episodes.
 
 
 ## Bug reports and feature requests
@@ -209,7 +230,5 @@ Software](http://kajasoftware.com).
 * My Homepage: <http://danielchoi.com/software>
 
 [twitter]:http://twitter.com/#!/danchoi
-
-
 
 
