@@ -4,6 +4,14 @@ require 'uri'
 class PoddbClient
   module Downloading
 
+    MEDIA_PLAYER = if `which mplayer` =~ /mplayer/
+                     'mplayer'
+                   elsif ENV['PODDB_MEDIA_PLAYER'] 
+                     ENV['PODDB_MEDIA_PLAYER']
+                   else
+                     # This fallback with open iTunes on OS X 
+                     'open'
+                   end
 
     def titleize(s, maxlength=20) 
       s.gsub(/\W+/, '-')[0,maxlength].sub(/-$/, '').sub(/^-/, '')
@@ -47,8 +55,7 @@ class PoddbClient
       item_id = File.read(DOWNLOAD_AND_PLAY_FILE).strip
       abort("No item id found") if item_id !~ /\d/
       download item_id
-      media_player_cmd = ENV['PODDB_MEDIA_PLAYER'] || 'mplayer'
-      exec("#{media_player_cmd} #@filename")
+      exec("#{MEDIA_PLAYER} #@filename")
     end
   end
 end

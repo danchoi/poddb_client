@@ -211,12 +211,14 @@ Examples:
     APM-Marketplace.09-14-11-Marketplace.poddb_16_55726.mp3
 
 If you press `D`, Poddb will quit the Vim interface immediately and begin
-downloading the episode that was under the cursor. After the download is complete,
-Poddb will automatically start playing the episode with `mplayer`.
+downloading the episode that was under the cursor. After the download is
+complete, Poddb will automatically start playing the episode with `mplayer` if
+mplayer is available, and if not, the `open` command, which will play a media
+file with iTunes on OS X. 
 
-If you don't want to use `mplayer` or don't have it installed. You can make
-Poddb launch a different media player by setting the `PODDB_MEDIA_PLAYER`
-environment variable and exporting it. For example, to make Poddb use `totem`: 
+You can force Poddb to launch a specific media player by setting the
+`PODDB_MEDIA_PLAYER` environment variable and exporting it. For example, to
+make Poddb use `totem`: 
 
     export PODDB_MEDIA_PLAYER=totem
     poddb 
