@@ -186,7 +186,7 @@ navigate, in addition to Vim's standard cursor commands:
 * `p` show all episodes for the podcast this item belongs to
 * `CTRL-j` show next episode
 * `CTRL-k` show previous episode
-* `CTRL-o` and `CTRL-i` jump back and forward through screens
+* `CTRL-o` and `CTRL-i` jump back and forward through screen history
 
 If you press `p` to show all the episodes for the podcast, you can navigate back to the
 previous screen with `CTRL-o` and return forward again with `CTRL-i`. In other words, 
