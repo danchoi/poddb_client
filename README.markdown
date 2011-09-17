@@ -102,8 +102,8 @@ the database. E.g.
 will return all the podcasts in the Poddb database with the word "music" in the
 title or podcast description.
 
-Press `ENTER` on a podcast to see its episodes.  See **Navigate and download
-podcast episodes** below for instruction on how to view and download episodes.
+Press `ENTER` on a podcast to see its episodes.  See below for instructions on
+how to view and download episodes.
 
 
 ## Add podcasts to the database
@@ -177,17 +177,16 @@ popular downloads in the last week, you can use
 
 
 
-## Navigate and download podcast episodes
+## Navigate podcast episodes
 
-When you see a list of episodes, you can use the following key commands, in
-addition to Vim's standard cursor commands:
+When you see a list of episodes, you can use the following key commands to
+navigate, in addition to Vim's standard cursor commands:
 
 * `l` or `ENTER` show episode detail
-* `d` mark episode for download; works with Vim selection ranges too
-* `D` start downloading episode immediately and play with media player
-* `p` show all episodes for this podcast 
+* `p` show all episodes for the podcast this item belongs to
 * `CTRL-j` show next episode
 * `CTRL-k` show previous episode
+* `CTRL-o` and `CTRL-i` jump back and forward through screens
 
 If you press `p` to show all the episodes for the podcast, you can navigate back to the
 previous screen with `CTRL-o` and return forward again with `CTRL-i`. In other words, 
@@ -195,6 +194,12 @@ feel free to use Vim's jump-list navigation commands.
 
 When you press `l` or `ENTER`, more information about the episode will appear in a split
 window below the list.
+
+
+## Download podcast episodes
+
+* `d` mark episode for download; works with Vim selection ranges too
+* `D` start downloading episode immediately and play with media player
 
 If you mark episodes for downloading, Poddb will place a `*` in their left
 margin and download them as soon as you quit the Vim interface with `:qa` or
