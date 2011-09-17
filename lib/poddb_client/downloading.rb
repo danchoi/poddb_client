@@ -8,9 +8,11 @@ class PoddbClient
                      'mplayer'
                    elsif ENV['PODDB_MEDIA_PLAYER'] 
                      ENV['PODDB_MEDIA_PLAYER']
-                   else
+                   elsif RUBY_PLATFORM =~ /darwin/i
                      # This fallback with open iTunes on OS X 
                      'open'
+                   else
+                     nil
                    end
 
     def titleize(s, maxlength=20) 
@@ -55,7 +57,11 @@ class PoddbClient
       item_id = File.read(DOWNLOAD_AND_PLAY_FILE).strip
       abort("No item id found") if item_id !~ /\d/
       download item_id
-      exec("#{MEDIA_PLAYER} #@filename")
+      if MEDIA_PLAYER
+        exec("#{MEDIA_PLAYER} #@filename")
+      else
+        puts "No media player found to play the file!"
+      end
     end
   end
 end
