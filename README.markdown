@@ -277,11 +277,13 @@ Please submit them here:
 Poddb has two parts, a client and a server. The client is a hybrid
 Ruby/VimScript program packaged as a Ruby gem. The server is a Ruby
 [Sinatra][sinatra] app sitting in front of a [PostgreSQL][postgres] database.
+I use the [Sequel][sequel] database toolkit to interface between Ruby and SQL.
 Podcast feeds are fetched with [curb][curb] and parsed with
 [nokogiri][nokogiri].
 
 [sinatra]:http://www.sinatrarb.com/
 [postgres]:http://www.google.com/search?aq=f&sourceid=chrome&ie=UTF-8&q=postgresql
+[sequel]:http://sequel.rubyforge.org/
 [curb]:http://curb.rubyforge.org/
 [nokogiri]:http://nokogiri.org/
 
