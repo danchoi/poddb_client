@@ -24,7 +24,7 @@ website or iTunes. Poddb serves these three goals.
 * Ruby 1.9.x
 * wget
 * curl
-* mplayer or another media player
+* mplayer, iTunes, or other media player
 
 To install Ruby 1.9.2, I recommend using the [RVM Version Manager][rvm].
 
