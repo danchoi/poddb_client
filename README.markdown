@@ -184,7 +184,7 @@ addition to Vim's standard cursor commands:
 
 * `l` or `ENTER` show episode detail
 * `d` mark episode for download; works with Vim selection ranges too
-* `D` start downloading episode immediately and play with `mplayer` or `PODDB_MEDIA_PLAYER` 
+* `D` start downloading episode immediately and play with media player
 * `p` show all episodes for this podcast 
 * `CTRL-j` show next episode
 * `CTRL-k` show previous episode
