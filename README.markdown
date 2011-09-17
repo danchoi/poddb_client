@@ -67,10 +67,10 @@ again.
 ## How to use it
 
 You invoke `poddb` from command line interface, passing it flags and search
-terms. Poddb will send the query over the internet to the poddb server. (So you
+terms. Poddb will send the query over the internet to the Poddb server. (So you
 must be online to use Poddb, though once you've downloaded some podcast audio
 or video files you can play them entirely offline.) The server will send back
-data, and poddb will launch Vim to let you navigate and interact with the query
+data, and Poddb will launch Vim to let you navigate and interact with the query
 results.
 
 Here is a partial synopsis of the command line interface. A more detailed guide
