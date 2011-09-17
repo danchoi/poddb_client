@@ -7,7 +7,7 @@ and Vim.
 
 [screenshots]
 
-With Poddb, you can browse all of NPR's recent podcasts with the command,
+With Poddb, you can power-browse all of NPR's recent podcasts with the command,
 
     poddb npr
 
