@@ -1,11 +1,15 @@
 # poddb
 
-_Podcatching for nerds, Zen minimalists, and Unix fanatics_.
+_Podcatching for nerds_
 
 Poddb lets you browse, search, and download podcasts from the Unix command line
 and Vim.
 
 [screenshots]
+
+With Poddb, you can browse all of NPR's recent podcasts with the command,
+
+    poddb npr
 
 
 ## Why
