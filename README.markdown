@@ -11,6 +11,10 @@ With Poddb, you can power-browse all of NPR's recent podcasts with the command,
 
     poddb npr
 
+and all recent TED talks with the command,
+
+    poddb tedtalks
+
 
 ## Why
 
