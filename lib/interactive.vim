@@ -16,6 +16,10 @@ let s:download_list = []
 
 autocmd VimLeave * :call <SID>write_download_list()<CR>
 
+if !exists("g:mapleader)
+  let g:mapleader = ","
+endif
+
 function! PoddbStatusLine()
   return "%<%f\ | Press ".g:mapleader."? for help. "."%r%=%-14.(%l,%c%V%)\ %P"
 endfunction
