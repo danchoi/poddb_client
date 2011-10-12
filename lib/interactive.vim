@@ -16,7 +16,7 @@ let s:download_list = []
 
 autocmd VimLeave * :call <SID>write_download_list()<CR>
 
-if !exists("g:mapleader)
+if !exists("g:mapleader")
   let g:mapleader = ","
 endif
 
