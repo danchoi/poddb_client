@@ -1,0 +1,19 @@
+
+------------------------------------------------------------------------
+Enclosure urls with spaces in them break during download
+
+Downloading podcast item 85689
+/home/choi/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/uri/common.rb:156:in `split': bad URI(is not URI?): http://www.wypr.org/sites/default/files/podcast_audio/Midday 11.21.2011 1st HOUR.mp3 (URI::InvalidURIError)
+        from /home/choi/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/uri/common.rb:174:in `parse'
+        from /home/choi/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/uri/common.rb:628:in `parse'
+        from /home/choi/.rvm/gems/ruby-1.9.2-p290/gems/poddb_client-0.2.6/lib/poddb_client/downloading.rb:32:in `download'
+        from /home/choi/.rvm/gems/ruby-1.9.2-p290/gems/poddb_client-0.2.6/lib/poddb_client/downloading.rb:59:in `download_and_play'
+        from /home/choi/.rvm/gems/ruby-1.9.2-p290/gems/poddb_client-0.2.6/lib/poddb_client.rb:145:in `interactive'
+        from /home/choi/.rvm/gems/ruby-1.9.2-p290/gems/poddb_client-0.2.6/lib/poddb_client.rb:117:in `run'
+        from /home/choi/.rvm/gems/ruby-1.9.2-p290/gems/poddb_client-0.2.6/bin/poddb:4:in `<top (required)>'
+        from /home/choi/.rvm/gems/ruby-1.9.2-p290/bin/poddb:19:in `load'
+        from /home/choi/.rvm/gems/ruby-1.9.2-p290/bin/poddb:19:in `<main>'
+[choi world~/Music/poddb]$ sed -n '32p' /home/choi/.rvm/gems/ruby-1.9.2-p290/gems/poddb_client-0.2.6/lib/poddb_client/downloading.rb
+      filename_suffix = File.extname(URI.parse(enclosure_url).path)
+
+
