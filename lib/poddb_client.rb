@@ -152,9 +152,9 @@ class PoddbClient
   def list_podcasts
     @outfile = PODCAST_LIST_OUTFILE
     @output = if @list_podcasts
-                `curl -s '#{SERVER}/podcasts?#@params'`
+                curl "/podcasts?#@params"
               elsif @list_favorite_podcasts 
-                `curl -s '#{SERVER}/podcasts?podcast_ids=#{favorite_podcast_ids.join(',')}'`
+                curl "/podcasts?podcast_ids=#{favorite_podcast_ids.join(',')}"
               end
     if File.size?(FAVORITE_PODCASTS_FILE)
       @output = @output.split("\n").map {|line|
@@ -169,12 +169,12 @@ class PoddbClient
   end
 
   def items_from_favorites
-    @output = `curl -s '#{SERVER}/items?podcast_ids=#{favorite_podcast_ids.join(',')}&#@params'`
+    @output = curl "/items?podcast_ids=#{favorite_podcast_ids.join(',')}&#@params"
     mark_already_downloaded
   end
 
   def search
-    @output = `curl -s '#{SERVER}/search?#@params'`
+    @output = curl "/search?#@params"
     mark_already_downloaded
   end
 
@@ -182,6 +182,12 @@ class PoddbClient
     `rm -rf #{CACHE_DIR}/*`
   end
 
+
+  def curl(path)
+    @output = `curl -s '#{SERVER}/#{path}'`
+    @output = @output.force_encoding("UTF-8")
+    @output = @output.encode("UTF-8", undef: :replace, invalid: :replace)
+  end
 private
 
   def favorite_podcast_ids
