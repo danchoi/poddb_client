@@ -13,7 +13,7 @@ class PoddbClient
     end
   end
 
-  SERVER = ENV['PODDB_SERVER'] || "http://poddb.com"
+  SERVER = "http://96.126.108.206"
 
   PODDB_DIR = "%s/.poddb" % ENV['HOME']
   CACHE_DIR = "%s/.poddb/cache" % ENV['HOME']

@@ -2,7 +2,7 @@ let s:client_cmd = "poddb"
 if !exists($PODDB_SERVER)
   let g:poddb_base_url = $PODDB_SERVER
 else
-  let g:poddb_base_url = "http://poddb.com"
+  let g:poddb_base_url = "http://96.126.108.206"
 endif
 
 
